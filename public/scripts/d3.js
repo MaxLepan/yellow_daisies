@@ -7,3 +7,4 @@ async function csvParse(d3) {
         console.log(data);
     })
 }
+
