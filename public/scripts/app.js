@@ -1,4 +1,5 @@
-axios.get('http://localhost:3001/')
+
+axios.get('/')
   .then(function (response) {
     // handle success
     console.log(response);
