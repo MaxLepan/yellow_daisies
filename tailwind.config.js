@@ -1,9 +1,8 @@
 module.exports = {
   prefix: '',
   content: [
-    './public/**/*.{html,ts,css,scss}',
-    './public/**/**/*.{html,ts,css,scss}',
-
+    './public/index.html',
+      './public/scripts/*.{js,ts}'
   ],
   darkMode: 'class',
   theme: {
