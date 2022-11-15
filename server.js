@@ -3,10 +3,13 @@ const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 3000;
 app.use(cors());
-app.get('/', (req, res) => {
-    return res.send('Received a GET HTTP method');
-});
-
+//port http
 app.listen(port, () =>
-  console.log(`Example app listening on port 3001 !`),
+  console.log(`Example app listening on port ${port} !`),
 );
+app.use(express.static(__dirname + '/public'));
+
+//select link to start
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
