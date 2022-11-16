@@ -9,6 +9,10 @@
     "dev": "nodemon -r dotenv/config server.js",
     "postbuild": "npx tailwindcss -i ./public/assets/css/input.css -o ./dist/output.css --watch"
   },
+  "engines" : {
+    "npm" : "8.3.1",
+    "node" : "16.14.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MaxLepan/yellow_daisies.git"
