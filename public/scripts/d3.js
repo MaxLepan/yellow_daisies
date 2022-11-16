@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 
 async function csvParse(d3) {
     await d3.csv("./../BELLIS-VS-ERIGERON.csv", function (data) {
@@ -9,5 +8,4 @@ async function csvParse(d3) {
     })
 }
 
-=======
->>>>>>> Stashed changes
+
