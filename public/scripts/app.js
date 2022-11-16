@@ -1,5 +1,4 @@
 import Page from './class/Page.js'
-//const Page = require("./class/page");
 let page
 
 function init() {
@@ -30,14 +29,16 @@ axios.post('/getNbInvasiveFlowersPerDecade', params).then((res) => {
             path.style.opacity = "0.4";
         })
     }
-    console.log(res.data);
 })
+
+
 const params2 = new URLSearchParams();
+
 params2.append('decade', "1990");
+
 axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
     console.log(res.data["Auvergne-Rhone-Alpes"]);
-    let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"] / 100 * 22);
-    console.log(nbPetals);
+    let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"]/100*22);
     for (let i = 1; i <= 22; i++) {
         document.querySelectorAll('#_' + i).forEach(path => {
             path.style.fill = nbPetals < i ? "#000" : "#ededed";

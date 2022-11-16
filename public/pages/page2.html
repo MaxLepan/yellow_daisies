@@ -2,9 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Title</title
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .testing {
+            background-image: url("../assets/img/fond_provi.svg");
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .seed-img-container {
+            position: absolute;
+            height: 309px;
+            width: auto;
+            bottom: 11px;
+            left: 33px;
+        }
+
+        .box {
+            width: 700px;
+            margin: 15% 0 0 280px;
+            background: white;
+            padding: 64px;
+            text-align: left;
+            font-weight: 900;
+            font-size: 24px;
+            color: #5ABA97;
+            position: relative;
+            display: flex;
+            border-radius: 83px 83px 83px 0;
+            filter: drop-shadow(1px 1px 10px rgba(79, 47, 47, 0.2));
+        }
+
+        .sb3:before {
+            content: "";
+            width: 0px;
+            height: 0px;
+            position: absolute;
+            display: flex;
+            border-left: 30px solid white;
+            border-right: 30px solid transparent;
+            border-top: 30px solid white;
+            border-bottom: 30px solid transparent;
+            border-radius: 10px;
+            left: 0;
+            bottom: -54px;
+            filter: drop-shadow(0 1px 10px rgba(79, 47, 47, 0.2));
+        }
+    </style>
 </head>
-<body>
 <div class="body">
     <div class="icons">
         <svg width="206" height="309" viewBox="0 0 206 309" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,5 +114,19 @@
         </svg>
     </div>
 </div>
+
+
+<div class="testing">
+    <div class="seed-img-container">
+        <img src="../assets/img/Graine.svg" alt="seed">
+    </div>
+    <div class="box sb3">Bonjour !<br><br>
+
+        Je suis Belli la graine.<br>
+        Je fait partie de la nature que l’on appelle aussi “La Biodiversité”<br><br>
+
+        Mais qu’est ce que la biodiversité ?</div>
+</div>
+
 </body>
 </html>
