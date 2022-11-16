@@ -28,7 +28,6 @@ axios.post('/getNbInvasiveFlowersPerDecade', params).then((res) => {
             path.style.opacity = "0.4";
         })
     }
-    console.log(res.data);
 })
 
 
@@ -39,7 +38,6 @@ params2.append('decade', "1990");
 axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
     console.log(res.data["Auvergne-Rhone-Alpes"]);
     let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"]/100*22);
-    console.log(nbPetals);
     for (let i = 1; i <= 22; i++) {
             document.querySelectorAll('#_' + i).forEach(path => {
                 path.style.fill = nbPetals < i ? "#000" : "#ededed";
