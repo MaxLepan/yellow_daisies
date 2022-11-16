@@ -2,7 +2,8 @@ import Page from './class/Page.js'
 let page
 
 function init() {
-      page = new Page(1, document.querySelectorAll('body>section').length)
+    page = new Page(1, document.querySelectorAll('body>section').length).changePage();
+
 }
 
 axios.get('/')
@@ -39,12 +40,12 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
     console.log(res.data["Auvergne-Rhone-Alpes"]);
     let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"]/100*22);
     for (let i = 1; i <= 22; i++) {
-            document.querySelectorAll('#_' + i).forEach(path => {
-                path.style.fill = nbPetals < i ? "#000" : "#ededed";
-                path.style.opacity = "0.8";
+        document.querySelectorAll('#_' + i).forEach(path => {
+            path.style.fill = nbPetals < i ? "#000" : "#ededed";
+            path.style.opacity = "0.8";
 
-            })
-        }
+        })
+    }
 })
 
 window.addEventListener('load', () => {
