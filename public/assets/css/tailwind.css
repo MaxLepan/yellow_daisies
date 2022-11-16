@@ -3,7 +3,13 @@
 @import "tailwindcss/components";
 
 @import "tailwindcss/utilities";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
 
+@layer base {
+    #title {
+        font-family: Bubble M, system-ui, sans-serif;!important;
+    }
+}
 *{
     margin: 0;
     padding: 0;
