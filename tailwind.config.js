@@ -4,9 +4,14 @@ module.exports = {
     './public/index.html',
     './public/**/*.{html,js}',
   ],
+
+
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        'sans': ['Bubble M', ...defaultTheme.fontFamily.sans],
+      },
       screens: {
         xs: '360px',
         sm: '640px',
