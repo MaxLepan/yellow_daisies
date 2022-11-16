@@ -1,5 +1,5 @@
 module.exports = {
-  prefix: '',
+  prefix: 'page-',
   content: [
     './public/index.html',
     './public/**/*.{html,js}',
