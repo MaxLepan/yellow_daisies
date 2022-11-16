@@ -35,6 +35,10 @@ app.post('/getNbNonInvasiveFlowersPerDecade', (req, res) => {
     let decade = parseInt(req.body.decade);
     res.send(parseByRegion(filterByInvasive(false, filterByDecade(decade))));
 })
+app.post('/getPercentageInvasiveFlowersPerDecade', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    res.send(percentageInvasive(decade));
+})
 
 function filterByDecade(decade, oldArr = daisies) {
     let arr = [];
@@ -57,6 +61,20 @@ function filterByInvasive(isInvasive, oldArr = daisies) {
     }
     return arr;
 }
+function percentageInvasive(decade) {
+    let flowers = parseByRegion(filterByDecade(decade));
+    let nonInvasive = parseByRegion(filterByInvasive(false, filterByDecade(decade)));
+    let percentByRegion = {}
+    for (const regionName in flowers) {
+        if (nonInvasive[regionName]) {
+            percentByRegion[regionName] = nonInvasive[regionName]/flowers[regionName]*100
+            console.log(regionName + " => " ,nonInvasive[regionName]/flowers[regionName]*100)
+        } else {
+            percentByRegion[regionName] = 0;
+        }
+    }
+    return percentByRegion;
+}
 
 function parseByRegion(arr = daisies) {
     let obj = {};
@@ -69,3 +87,5 @@ function parseByRegion(arr = daisies) {
     }
     return obj;
 }
+percentageInvasive(2000);
+

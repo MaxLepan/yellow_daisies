@@ -10,17 +10,31 @@
 @import "./page10.scss";
 @import "./page11.scss";
 
-*{
-    margin: 0;
-    padding: 0;
-    line-height: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  box-sizing: border-box;
+}
+#Calque_2 {
+  animation: bounce 4.7s ease;
+  animation-iteration-count: 100;
 }
 
-html,body{
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+html, body {
+
+  /**  overflow: hidden;
     >section{
         height: 100vh;
         width: 100vw;
@@ -31,5 +45,7 @@ html,body{
         left: 0;
         display: none;
         border: solid 2px black;
-    }
+}
+   */
+
 }
