@@ -1,5 +1,11 @@
-import {select, selectAll} from "d3-selection";
-import {geoPath} from "d3-geo";
-import {geoPatterson} from "d3-geo-projection";
-import "d3-transition";
+
+async function csvParse(d3) {
+    await d3.csv("./../BELLIS-VS-ERIGERON.csv", function (data) {
+        for (let i = 0; i < data.length; i++) {
+            console.log(data[i].nomScientifiqueRef);
+        }
+        console.log(data);
+    })
+}
+
 

@@ -12,8 +12,18 @@
 <body>
     <div id="map" style="width: 100%; height: 100vh;">
 
+<img src="./assets/maps/Encart_Guyane.svg" class="w-[50%] h-[33%]"/>
     </div>
+<script>
+    function start() {
+        var data = d3.csv("./../BELLIS-VS-ERIGERON.csv")
+        var svg = d3.select("#map").append("svg");
 
+        console.log(data[0]);
+        return data[0];
+
+    }
+</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="./scripts/app.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
