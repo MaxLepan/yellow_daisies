@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "nodemon -r dotenv/config server.js"
+    "dev": "nodemon -r dotenv/config server.js",
+    "postbuild": "npx tailwindcss -i ./public/assets/css/input.css -o ./dist/output.css --watch"
+  },
+  "engines" : {
+    "npm" : "8.3.1",
+    "node" : "16.14.0"
   },
   "repository": {
     "type": "git",
@@ -21,10 +26,13 @@
   "dependencies": {
     "axios": "^1.1.3",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "d3": "^7.6.1",
+    "express": "^4.18.2",
+    "mapbox-gl": "^2.11.0"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "tailwindcss": "^3.2.4"
   }
 }
