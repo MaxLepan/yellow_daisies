@@ -1,6 +1,6 @@
 module.exports = {
   prefix: 'page-',
-  content: [
+  purge: [
     './public/index.html',
     './public/**/*.{html,js}',
   ],
@@ -13,7 +13,6 @@ module.exports = {
         md: '768px',
         lg: '1025px',
         xl: '1280px',
-        '2xl': '1536px',
       },
     },
   },
