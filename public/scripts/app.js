@@ -1,5 +1,4 @@
 import Page from './class/Page.js'
-//const Page = require("./class/page");
 let page
 
 function init() {
@@ -18,6 +17,7 @@ axios.get('/')
     .then(function () {
         console.log("always passed")
     });
+
 const params = new URLSearchParams();
 params.append('decade', "1990");
 
@@ -30,8 +30,12 @@ axios.post('/getNbInvasiveFlowersPerDecade', params).then((res) => {
     }
     console.log(res.data);
 })
+
+
 const params2 = new URLSearchParams();
+
 params2.append('decade', "1990");
+
 axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
     console.log(res.data["Auvergne-Rhone-Alpes"]);
     let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"]/100*22);
