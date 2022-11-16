@@ -6,6 +6,10 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    div: {
+      marginTop: '0.65rem',
+      marginBottom: '0.65rem',
+    },
     extend: {
       screens: {
         xs: '360px',
@@ -15,18 +19,10 @@ module.exports = {
         xl: '1280px',
         '2xl': '1536px',
       },
+
       lg: {
         css: {
-          'ul > li > *:last-child': {
-            marginTop: '0.65rem',
-            marginBottom: '0.65rem',
-          },
-          'table th': {
-            verticalAlign: 'middle',
-            paddingTop: '0.5rem',
-            paddingBottom: '0.5rem',
-            textAlign: 'center',
-          },
+
           'table td': {
             paddingTop: '0',
             paddingBottom: '0',
