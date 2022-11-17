@@ -1,20 +1,25 @@
 import Page from './class/Page.js'
 import Message from './class/Message.js'
-let page, messagepage2
+let page, messagepage2, messagepage5
 
 function init() {
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text').length, 2);
+    messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text').length, 5);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
-        if(e.target.value) page.changePage(e.target.value)
+        if (e.target.value) page.changePage(e.target.value)
     })
     document.querySelectorAll('a.goToNextPage')?.forEach((button) => {
         button.addEventListener("click", () => {
             page.goToNextPage();
         }, false)
     })
-    document.querySelector('#page2 #next_button')?.addEventListener("click", () => {
-            messagepage2.goToNextMessage(page);
+
+    document.querySelector('#page2 .next_button').addEventListener("click", () => {
+        messagepage2.goToNextMessage(page);
+    }, false)
+    document.querySelector('#page5 .next_button').addEventListener("click", () => {
+        messagepage5.goToNextMessage(page);
     }, false)
 }
 
@@ -134,7 +139,7 @@ params2.append('decade', "1990");
 
 axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
     //console.log(res.data["Auvergne-Rhone-Alpes"]);
-    let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"]/100*22);
+    let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"] / 100 * 22);
     for (let i = 1; i <= 22; i++) {
         document.querySelectorAll('#_' + i).forEach(path => {
             path.style.fill = nbPetals < i ? "#000" : "#ededed";
