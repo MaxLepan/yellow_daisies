@@ -24,6 +24,9 @@ export default class Page {
         document.querySelector('body>#page' + this.actualPage).classList.add('flex');
         document.querySelector('body>#page' + this.actualPage).classList.remove('hidden');
 
+        if (newPage == 6)
+            getInvasiveFlowersByDecade(window.decade.toString(), window.isInvasive)
+
         return this.actualPage
 
     }

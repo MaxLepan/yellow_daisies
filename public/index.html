@@ -45,7 +45,7 @@
 <section id="page5" class="hidden">
     <h1 class="text-blue-600">LNQKL§NCKQNXQDXN§QAXDNQCHKJMEANO§O DNIDK/J HIDHQIDPAGE 5</h1>
 </section>
-<section id="page6" class="hidden">
+<section id="page6" class="hidden flex-col">
     <h1>PAGE 6</h1>
     <div id="map_metropole" style="width: 550px; height: 550px;">
         <svg id="france_metropolitaine" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1898">
@@ -150,11 +150,19 @@
             <p>Pas du tout</p>
         </div>
     </div>
+    <div class="invasive-filter inline-block">
+        <button value="invasive" onclick="invasiveClick(true)"
+                class="inline-block bg-[url('/assets/img/invasive-filter.svg')] w-20 h-20 bg-no-repeat"></button>
+        <p>Invasive</p>
+        <button onclick="invasiveClick(false)" value="non-invasive"
+                class="inline-block bg-[url('/assets/img/non-invasive-filter.svg')] w-20 h-20 bg-no-repeat"></button>
+        <p>Non-invasive</p>
+    </div>
     <div id="filter">
-        <button value="1990" class="year-btn">1990</button>
-        <button value="2000" class="year-btn">2000</button>
-        <button value="2010" class="year-btn">2010</button>
-        <button value="2020" class="year-btn">2020</button>
+        <button value="1990" onclick="decadeClick('1990')" class="year-btn">1990</button>
+        <button value="2000" onclick="decadeClick('2000')" class="year-btn">2000</button>
+        <button value="2010" onclick="decadeClick('2010')" class="year-btn">2010</button>
+        <button value="2020" onclick="decadeClick('2020')" class="year-btn">2020</button>
     </div>
 </section>
 
