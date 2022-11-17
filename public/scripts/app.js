@@ -1,4 +1,5 @@
 import Page from './class/Page.js'
+
 let page
 
 function init() {
@@ -14,18 +15,37 @@ function init() {
     })
 }
 
-const params = new URLSearchParams();
-params.append('decade', "1990");
+function getFlowersByDecade(decade) {
 
-axios.post('/getNbInvasiveFlowersPerDecade', params).then((res) => {
-    for (const region in res.data) {
-        document.querySelectorAll('#' + region + ' > path').forEach(path => {
-            path.style.fill = "#000";
-            path.style.opacity = "0.4";
+    const params = new URLSearchParams();
+    params.append('decade', decade);
+
+    axios.post('/getNbFlowersPerDecade', params).then((res) => {
+        let values = Object.values(res.data)
+        const max = Math.max(...values)
+        const min = Math.min(...values)
+
+        document.querySelectorAll(".region").forEach((region) => {
+            region.style.fill = "#D9D9D9";
+            region.style.opacity = 1;
         })
-    }
-})
 
+        for (const region in res.data) {
+            document.querySelectorAll('#' + region + ' > path').forEach(path => {
+                path.style.fill = "#2D6C56";
+                let diff = max - min;
+                path.style.opacity = ((res.data[region] - min) / diff) * 0.6 + 0.4;
+            })
+        }
+    })
+}
+
+getFlowersByDecade("1990")
+document.querySelectorAll(".year-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+        getFlowersByDecade(button.value);
+    }, false)
+})
 
 const params2 = new URLSearchParams();
 
