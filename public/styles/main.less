@@ -46,7 +46,34 @@
   height: 834px;
 }
 
+.sb3:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  border-left: 30px solid white;
+  border-right: 30px solid transparent;
+  border-top: 30px solid white;
+  border-bottom: 30px solid transparent;
+  border-radius: 10px;
+  left: 320px;
+  bottom: 190px;
+  filter: drop-shadow(0 20px 15px rgba(79, 47, 47, 0.2));
+}
 
+.next-button {
+  position: absolute;
+  display: flex;
+  background-color: #7BD0BE;
+  padding: 20px 35px;
+  border: none;
+  border-radius: 32px;
+  color: white;
+  font-weight: 500;
+  font-size: 28px;
+  right: 70px;
+  bottom: 60px;
+}
 html, body{
     overflow: hidden;
     width: 100vw;
