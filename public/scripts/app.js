@@ -27,7 +27,7 @@ function init() {
     document.querySelectorAll('#page3 .goToNextPage').forEach(soil => {
         soil.addEventListener("click", () => {
             getChosenSoil();
-           window.setTimeout(() => page.goToNextPage(), 4.0 * 1000);
+           window.setTimeout(() => page.goToNextPage(), 5.9 * 1000);
         }, false)
     })
     document.querySelector('#page2 .next_button').addEventListener("click", () => {
@@ -177,6 +177,9 @@ function generateBySoil(soil) {
 
     }
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
+    document.querySelector("#page5 .flowerChoice").src = "../assets/img/flower_" + soil + ".svg";
+    document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
+
 }
 
 const params2 = new URLSearchParams();
