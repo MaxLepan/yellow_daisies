@@ -1,14 +1,14 @@
 import Page from './class/Page.js'
 import Message from './class/Message.js'
-let page, messagepage2, messagepage5, messagepage7
+let page, messagepage2, messagepage5, messagepage9
 
 
 function init() {
-    document.querySelector('#page7 .next_button').classList.remove('hidden')
+    document.querySelector('#page9 .next_button').classList.remove('hidden')
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text').length, 5);
-    messagepage7 = new Message(1, document.querySelectorAll('#page7 div[class^=text').length, 7);
+    messagepage9 = new Message(1, document.querySelectorAll('#page9 div[class^=text').length, 9);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if (e.target.value) page.changePage(e.target.value)
     })
@@ -36,11 +36,11 @@ function init() {
     document.querySelector('#page5 .next_button').addEventListener("click", () => {
         messagepage5.goToNextMessage(page);
     }, false)
-    document.querySelector('#page7 .next_button').addEventListener("click", () => {
-        if(messagepage7.actualMessage === messagepage7.nbMessage-1){
-            document.querySelector('#page7 .next_button').classList.add('hidden')
+    document.querySelector('#page9 .next_button').addEventListener("click", () => {
+        if(messagepage9.actualMessage === messagepage9.nbMessage-1){
+            document.querySelector('#page9 .next_button').classList.add('hidden')
         }
-        messagepage7.goToNextMessage(page);
+        messagepage9.goToNextMessage(page);
     }, false)
     document.querySelector('.goToPage-1').addEventListener("click", () => {
         init()
