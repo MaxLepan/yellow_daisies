@@ -8,45 +8,46 @@
     <title>YELLOW Daisies</title>
     <link rel="stylesheet/less" type="text/css" href="styles/main.less"/>
     <script src="https://cdn.jsdelivr.net/npm/less@4.1.1"></script>
-
-
     <link href="assets/dist/output.css">
-    <style>
-        @import url('https://fonts.cdnfonts.com/css/bubble-mint');
-        @import url('assets/css/Bubble Mint.otf');
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap');
-    @font-face {
-    font-family: "Bubble Mint";
-    src: url("assets/css/Bubble Mint.otf") format("opentype");
-    }
-        @font-face {
-            font-family: "Bubble Mint";
-            src: url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap") format("fonts");
-        }
+    <link href="assets/css/tailwind.css">
+    <link href="assets/dist/output.css">
 
-        </style>
 </head>
 <body class="my-0 block w-screen h-screen">
-
 <input type="text" id="changepagedebug" class="absolute top-0 left-0 z-30 border-2">
-<section id="page1" class="flex">
+<section id="page1">
     <div include-html="./pages/page1.html"></div>
 </section>
-<section id="page2" class="hidden">
-    <div include-html="./pages/page2.html"></div>
+<section id="page2">
+    <div include-html="./pages/page2.html">
+        <div class="bg-[url('/assets/img/fond_provi.svg')] h-screen w-screen bg-cover bg-no-repeat top-0 left-0 my-0 block">
+            <div class="absolute bottom-6 left-8">
+                <img src="./assets/img/Graine.svg" width="206" height="309" alt="seed">
+            </div>
+            <div class="w-700 h-full mt-8 mr-0 mb-0 ml-60 bg-lightgrey inline">
+                <span class="title">Bonjour !</span>
+                <p class="text">
+                    Je suis Belli la graine.
+                    <br>
+                    Je fait partie de la nature que l’on appelle aussi “La Biodiversité”
+                    <br>
+                    <br><span class="bold">Mais qu’est ce que la biodiversité ?</span>
+                </p>
+            </div>
+            <button class="next-button">suivant →</button>
+        </div>
+    </div>
 </section>
-<section id="page3" class="hidden">
-    <div include-html="./pages/page3.html"></div>
-
+<section id="page3">
+    <h1>PAGE 3</h1>
 </section>
-<section id="page4" class="hidden">
+<section id="page4">
     <h1>PAGE 4</h1>
 </section>
-<section id="page5" class="hidden">
+<section id="page5 map_metropole">
     <h1 class="text-blue-600">LNQKL§NCKQNXQDXN§QAXDNQCHKJMEANO§O DNIDK/J HIDHQIDPAGE 5</h1>
 </section>
-<section id="page6" class="hidden">
-    <h1>PAGE 6</h1>
+<section id="page6">
     <div id="map_metropole" style="width: 550px; height: 550px;">
         <svg id="france_metropolitaine" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1898">
             <defs>
@@ -150,7 +151,15 @@
             <p>Pas du tout</p>
         </div>
     </div>
-    <div id="filter">
+    <div class="invasive-filter right-10 inline-block absolute">
+        <button value="invasive"
+                class="inline-block bg-[url('/assets/img/invasive-filter.svg')] w-20 h-20 bg-no-repeat"></button>
+        <p>Invasive</p>
+        <button value="non-invasive"
+                class="inline-block bg-[url('/assets/img/non-invasive-filter.svg')] w-20 h-20 bg-no-repeat"></button>
+        <p>Non-invasive</p>
+    </div>
+    <div id="year-filter">
         <button value="1990" class="year-btn">1990</button>
         <button value="2000" class="year-btn">2000</button>
         <button value="2010" class="year-btn">2010</button>

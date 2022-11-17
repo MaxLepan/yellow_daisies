@@ -3,7 +3,6 @@ import Page from './class/Page.js'
 let page
 
 function init() {
-    console.log('init')
     page = new Page(1, document.querySelectorAll('body>section').length);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if(e.target.value) page.changePage(e.target.value)
@@ -24,7 +23,6 @@ function getFlowersByDecade(decade) {
         let values = Object.values(res.data)
         const max = Math.max(...values)
         const min = Math.min(...values)
-
         document.querySelectorAll(".region").forEach((region) => {
             region.style.fill = "#D9D9D9";
             region.style.opacity = 1;
@@ -40,6 +38,30 @@ function getFlowersByDecade(decade) {
     })
 }
 
+function getInvasiveFlowersByDecade(decade, isInvasive) {
+    const params = new URLSearchParams();
+    params.append('decade', decade);
+
+    axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
+        for (const region in res.data) {
+            if (isInvasive) {
+                if (res.data[region] >= 50) {
+                    document.querySelectorAll('#' + region + '>path').forEach(path => {
+                        path.classList.add('invasive');
+                    })
+                }
+            } else {
+                if (res.data[region] < 50) {
+                    document.querySelectorAll('#' + region + ' > path').forEach(path => {
+                        console.log(region, res.data[region])
+                    })
+                }
+            }
+        }
+    })
+}
+
+getInvasiveFlowersByDecade("1990", true)
 getFlowersByDecade("1990")
 document.querySelectorAll(".year-btn").forEach((button) => {
     button.addEventListener("click", () => {
