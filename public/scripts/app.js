@@ -22,6 +22,14 @@ function init() {
     document.querySelector('#page5 .next_button').addEventListener("click", () => {
         messagepage5.goToNextMessage(page);
     }, false)
+
+
+    getFlowersByDecade("1990")
+    document.querySelectorAll(".year-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+            getFlowersByDecade(button.value);
+        }, false)
+    })
 }
 
 function getFlowersByDecade(decade) {
@@ -63,7 +71,7 @@ function clearBellis() {
     })
 }
 
-window.isInvasive = false;
+window.isInvasive = true;
 window.decade = 1990;
 
 
@@ -88,15 +96,12 @@ window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
     axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
         clearBellis();
         for (const region in res.data) {
-
             document.querySelectorAll('#' + region).forEach(path => {
-
-                //A clean tard plu
 
                 let img = document.createElement('img');
 
 
-                if (isInvasive)
+                if (res.data[region] >= 50)
                     img.src = '/assets/img/invasive-icon.svg';
                 else
                     img.src = '/assets/img/non-invasive-icon.svg';
@@ -115,7 +120,7 @@ window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
 
                 function getPositionXY(element) {
                     var rect = element.getBoundingClientRect();
-                    var childRect = element.children[0].getBoundingClientRect();
+                    var childRect = element.getBoundingClientRect();
                     return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
                 }
 
@@ -126,14 +131,6 @@ window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
 
     })
 }
-
-
-getFlowersByDecade("1990")
-document.querySelectorAll(".year-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-        getFlowersByDecade(button.value);
-    }, false)
-})
 
 const params2 = new URLSearchParams();
 
