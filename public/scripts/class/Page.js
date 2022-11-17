@@ -21,7 +21,7 @@ export default class Page {
         this.actualPage = newPage
         console.log('body>#page' + this.actualPage)
         console.log(document.querySelector('body>#page' + this.actualPage))
-        document.querySelector('body>#page' + this.actualPage).style.display = "block";
+        document.querySelector('body>#page' + this.actualPage).style.display = "flex";
         return this.actualPage
 
     }
