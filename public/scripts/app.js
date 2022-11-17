@@ -3,6 +3,7 @@ import Page from './class/Page.js'
 let page
 
 function init() {
+    console.log('init')
     page = new Page(1, document.querySelectorAll('body>section').length);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if(e.target.value) page.changePage(e.target.value)

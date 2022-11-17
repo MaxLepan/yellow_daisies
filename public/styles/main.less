@@ -46,20 +46,25 @@
   height: 834px;
 }
 
-html, body {
 
-  /**  overflow: hidden;
-    >section{
-        height: 100vh;
-        width: 100vw;
-        position: absolute;
-        align-items: center;
-        justify-content: center;
-        top: 0;
-        left: 0;
-        display: none;
-        border: solid 2px black;
+html, body{
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
 }
-   */
 
+body > section {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    border: solid 2px black;
+}
+
+body > section > div{
+    width: 100vw;
+    height: 100vh;
 }

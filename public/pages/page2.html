@@ -1,98 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        @import url('https://fonts.cdnfonts.com/css/bubble-mint');
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap');
-
-        .title {
-            font-family: 'Bubble Mint', sans-serif;
-            font-size: 40px;
-            color: #5ABA97;
-        }
-
-        .text {
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 400;
-            font-size: 24px;
-            color: #5ABA97;
-        }
-
-        .bold {
-            font-weight: 500;
-        }
-
-        body {
-            margin: 0;
-        }
-
-        .container {
-            background-image: url("../assets/img/fond_provi.svg");
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
-
-        .seed-img-container {
-            position: absolute;
-            height: 309px;
-            width: auto;
-            bottom: 11px;
-            left: 33px;
-        }
-
-        .box {
-            width: 700px;
-            margin: 15% 0 0 280px;
-            background: white;
-            padding: 64px;
-            text-align: left;
-            font-weight: 900;
-            font-size: 24px;
-            color: #5ABA97;
-            position: relative;
-            border-radius: 83px 83px 83px 0;
-            filter: drop-shadow(1px 1px 10px rgba(79, 47, 47, 0.2));
-        }
-
-        .sb3:before {
-            content: "";
-            width: 0;
-            height: 0;
-            position: absolute;
-            border-left: 30px solid white;
-            border-right: 30px solid transparent;
-            border-top: 30px solid white;
-            border-bottom: 30px solid transparent;
-            border-radius: 10px;
-            left: 0;
-            bottom: -54px;
-            filter: drop-shadow(0 1px 10px rgba(79, 47, 47, 0.2));
-        }
-
-        .next-button {
-            position: absolute;
-            display: flex;
-            background-color: #7BD0BE;
-            padding: 20px 35px;
-            border: none;
-            border-radius: 32px;
-            color: white;
-            font-weight: 500;
-            font-size: 28px;
-            right: 70px;
-            bottom: 60px;
-        }
-    </style>
-</head>
-
-<div class="container">
-    <div class="seed-img-container">
-        <img src="../assets/img/Graine.svg" alt="seed">
+<div class="container bg-[url('/assets/img/bg_page2.svg')] h-screen bg-cover bg-no-repeat top-0 left-0 my-0 block">
+    <div class="absolute bottom-6 left-8">
+        <img src="../assets/img/Graine.svg" alt="seed" width="209" height="415">
     </div>
-    <div class="box sb3"><span class="title">Bonjour !</span>
+    <div class="flex-col flex mt-32"><span class="title">Bonjour !</span>
         <br>
         <br>
         <p class="text">
@@ -105,6 +15,3 @@
     </div>
     <button class="next-button">suivant →</button>
 </div>
-
-</body>
-</html>
