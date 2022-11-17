@@ -30,6 +30,16 @@ function init() {
             getFlowersByDecade(button.value);
         }, false)
     })
+
+    const invasiveButton = document.querySelector('#invasive-btn')
+    invasiveButton.addEventListener("click", () => {
+        invasiveButton.classList.toggle('active')
+        if (invasiveButton.classList.contains('active')) {
+            getInvasiveFlowersByDecade(window.decade.toString())
+        } else {
+            clearBellis();
+        }
+    })
 }
 
 function getFlowersByDecade(decade) {
@@ -74,20 +84,16 @@ function clearBellis() {
 window.isInvasive = true;
 window.decade = 1990;
 
-
-window.invasiveClick = function (isInvasiveClick) {
-    getInvasiveFlowersByDecade(window.decade.toString(), isInvasiveClick)
-}
-
-window.decadeClick = function (decadeClick) {
-    getInvasiveFlowersByDecade(decadeClick, window.isInvasive)
-
+window.decadeClick = function (decade) {
+    window.decade = decade;
+    getFlowersByDecade(decade);
 }
 
 
-window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
+window.getInvasiveFlowersByDecade = function (decade) {
 
-    window.isInvasive = isInvasive;
+    //window.isInvasive = isInvasive;
+    console.log(decade)
     window.decade = decade;
 
     const params = new URLSearchParams();
