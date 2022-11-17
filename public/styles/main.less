@@ -14,7 +14,6 @@
 * {
   margin: 0;
   padding: 0;
-  line-height: 0;
   box-sizing: border-box;
 }
 
@@ -34,7 +33,6 @@
     transform: translateY(-10px);
   }
 }
-
 .img {
   background-image:url("./public/assets/img/Illustration_sans_titre-11-1.png");
   background-position: top left;
@@ -46,22 +44,17 @@
   height: 834px;
 }
 
-.sb3:before {
-  content: "";
+.sb3:after {
+  content: url(../assets/img/polygonmessage.svg);
+  align-self: flex-end;
+  margin-bottom: 4px;
+  margin-left: -637px;
   width: 0;
   height: 0;
-  position: absolute;
-  border-left: 30px solid white;
-  border-right: 30px solid transparent;
-  border-top: 30px solid white;
-  border-bottom: 30px solid transparent;
-  border-radius: 10px;
-  left: 310px;
-  bottom: 195px;
-  filter: drop-shadow(0 20px 15px rgba(79, 47, 47, 0.2));
+  //filter: drop-shadow(0 20px 15px rgba(79, 47, 47, 0.2));
 }
 
-.next-button {
+#next_button {
   position: absolute;
   display: flex;
   background-color: #7BD0BE;

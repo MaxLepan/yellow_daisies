@@ -1,10 +1,11 @@
 import Page from './class/Page.js'
-
-let page
+import Message from './class/Message.js'
+let page, messagepage2
 
 function init() {
     console.log('init')
     page = new Page(1, document.querySelectorAll('body>section').length);
+    messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text').length, 2);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if(e.target.value) page.changePage(e.target.value)
     })
@@ -13,6 +14,9 @@ function init() {
             page.goToNextPage();
         }, false)
     })
+    document.querySelector('#page2 #next_button').addEventListener("click", () => {
+            messagepage2.goToNextMessage(page);
+    }, false)
 }
 
 function getFlowersByDecade(decade) {
