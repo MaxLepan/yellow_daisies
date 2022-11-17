@@ -23,17 +23,23 @@
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-15px);
   }
+
   60% {
     transform: translateY(-10px);
   }
 }
-
 
 
 .img-invasive-add{
@@ -49,9 +55,8 @@
   stroke: #4D997A;
   stroke-width: 2px;
 }
-
 .img {
-  background-image:url("./public/assets/img/Illustration_sans_titre-11-1.png");
+  background-image: url("./public/assets/img/Illustration_sans_titre-11-1.png");
   background-position: top left;
   background-size: cover;
   object-fit: cover;
@@ -65,14 +70,28 @@
   content: url(../assets/img/polygonmessage.svg);
   align-self: flex-end;
   margin-bottom: 4px;
-  margin-left: -637px;
   width: 0;
   height: 0;
   //filter: drop-shadow(0 20px 15px rgba(79, 47, 47, 0.2));
 }
 
+#page2 .sb3:after {
+  margin-left: -743px;
+}
+
+#page5 .sb3:after,
+#page7 .sb3:after {
+  margin-left: -807px;
+}
+
 .next_button {
   position: absolute;
+  right: 70px;
+  bottom: 60px;
+}
+
+.next_button,
+button[class^=goTo] {
   display: flex;
   background: linear-gradient(180deg, #65C1A3 0%, #A2DAAF 100%);
   padding: 10px 30px;
@@ -83,27 +102,27 @@
   color: white;
   font-weight: 500;
   font-size: 28px;
-  right: 70px;
-  bottom: 60px;
-}
-html, body{
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
 }
 
-body > section {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    border: solid 2px black;
+html,
+body {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
-body > section > div{
-    width: 100vw;
-    height: 100vh;
+body>section {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  border: solid 2px black;
+}
+
+body>section>div {
+  width: 100vw;
+  height: 100vh;
 }
