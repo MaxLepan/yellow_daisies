@@ -3,8 +3,17 @@ export default class Message {
         this.page = page
         this.actualMessage = actualMessage
         this.nbMessage = nbMessage
+        //this.init()
     }
-
+    /*init(){
+        document.querySelectorAll('#page'+ this.page + ' div[class^=text]').forEach((text,i)=>{
+            if(i !== this.actualMessage){
+                document.querySelector('#page'+ this.page + ' .text' + this.actualMessage).classList.add('hidden');
+            }else{
+                changeMessage(this.actualMessage)
+            }
+        })
+    }*/
     goToNextMessage(page) {
         if (this.actualMessage < this.nbMessage) {
             this.changeMessage(this.actualMessage + 1);
