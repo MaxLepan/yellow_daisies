@@ -24,7 +24,9 @@ html, body > section {
     border: solid 2px black;
 }
 
-
+.Bubble {
+    font-family: "Bubble Mint", sans-serif;
+}
 .page-1 {
     font-size: 36rem;
 }

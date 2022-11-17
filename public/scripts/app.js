@@ -2,7 +2,7 @@ import Page from './class/Page.js'
 let page
 
 function init() {
-    page = new Page(1, document.querySelectorAll('body>section').length).changePage();
+    page = new Page(1, document.querySelectorAll('body>section').length);
 
 }
 
