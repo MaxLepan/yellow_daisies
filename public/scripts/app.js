@@ -3,6 +3,13 @@ let page
 
 function init() {
     page = new Page(1, document.querySelectorAll('body>section').length);
+
+}
+
+axios.get('/')
+    .then(function (response) {
+        // handle success
+        console.log(response);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if(e.target.value) page.changePage(e.target.value)
     })
