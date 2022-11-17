@@ -19,6 +19,11 @@ function init() {
     document.querySelector('#page2 .next_button').addEventListener("click", () => {
         messagepage2.goToNextMessage(page);
     }, false)
+    document.querySelectorAll('#page3 .goToNextPage').forEach(soil => {
+        soil.addEventListener("click", () => {
+            getChosenSoil();
+        }, false)
+    })
     document.querySelector('#page5 .next_button').addEventListener("click", () => {
         messagepage5.goToNextMessage(page);
     }, false)
@@ -50,9 +55,7 @@ function getFlowersByDecade(decade) {
 
 function bellisClick(event) {
     let region = event.target.dataset.region;
-
     console.log(region);
-
 }
 
 let imgs = []
@@ -62,6 +65,7 @@ function clearBellis() {
         img.remove();
     })
 }
+
 
 window.isInvasive = false;
 window.decade = 1990;
@@ -75,8 +79,6 @@ window.decadeClick = function (decadeClick) {
     getInvasiveFlowersByDecade(decadeClick, window.isInvasive)
 
 }
-
-
 window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
 
     window.isInvasive = isInvasive;
@@ -115,15 +117,11 @@ window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
 
                 function getPositionXY(element) {
                     var rect = element.getBoundingClientRect();
-                    var childRect = element.children[0].getBoundingClientRect();
+                    var childRect = element.getBoundingClientRect();
                     return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
                 }
-
-
             })
         }
-
-
     })
 }
 
@@ -134,6 +132,34 @@ document.querySelectorAll(".year-btn").forEach((button) => {
         getFlowersByDecade(button.value);
     }, false)
 })
+
+function getChosenSoil() {
+    for (let i = 1; i <= 4; i++) {
+        document.querySelector('#soil' + i).addEventListener("click", () => {
+            generateBySoil(i);
+            window.soil = i;
+        })
+    }
+}
+function generateBySoil(soil) {
+    switch(soil) {
+        case 1 :
+            soil = "automn";
+            break;
+        case 2 :
+            soil = "muraille";
+            break;
+        case 3 :
+            soil = "prairie";
+            break;
+        case 4 :
+            soil = "pomponette";
+            break;
+
+    }
+    console.log("pass")
+    document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
+}
 
 const params2 = new URLSearchParams();
 
