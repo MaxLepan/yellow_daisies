@@ -13,10 +13,17 @@
     <link href="assets/dist/output.css">
     <style>
         @import url('https://fonts.cdnfonts.com/css/bubble-mint');
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap');</style>
+        @import url('assets/css/Bubble Mint.otf');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap');
+    @font-face {
+    font-family: "Bubble Mint";
+    src: url("assets/css/Bubble Mint.otf") format("opentype");
+    }
 
+        </style>
 </head>
 <body class="my-0 block w-screen h-screen">
+
 <input type="text" id="changepagedebug" class="absolute top-0 left-0 z-30 border-2">
 <section id="page1" style="display: flex;">
     <div include-html="./pages/page1.html"></div>
