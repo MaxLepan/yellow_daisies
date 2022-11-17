@@ -36,6 +36,24 @@ function init() {
     document.querySelector('#page5 .next_button').addEventListener("click", () => {
         messagepage5.goToNextMessage(page);
     }, false)
+
+    getFlowersByDecade("1990")
+    document.querySelectorAll(".year-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+            getFlowersByDecade(button.value);
+        }, false)
+    })
+
+    const invasiveButton = document.querySelector('#invasive-btn')
+    invasiveButton.addEventListener("click", () => {
+        invasiveButton.classList.toggle('active')
+        if (invasiveButton.classList.contains('active')) {
+            getInvasiveFlowersByDecade(window.decade.toString())
+        } else {
+            clearBellis();
+        }
+    })
+
     document.querySelector('#page7 .next_button').addEventListener("click", () => {
         if(messagepage7.actualMessage === messagepage7.nbMessage-1){
             document.querySelector('#page7 .next_button').classList.add('hidden')
@@ -84,22 +102,18 @@ function clearBellis() {
     })
 }
 
-
-window.isInvasive = false;
+window.isInvasive = true;
 window.decade = 1990;
 
-
-window.invasiveClick = function (isInvasiveClick) {
-    getInvasiveFlowersByDecade(window.decade.toString(), isInvasiveClick)
+window.decadeClick = function (decade) {
+    window.decade = decade;
+    getFlowersByDecade(decade);
 }
 
-window.decadeClick = function (decadeClick) {
-    getInvasiveFlowersByDecade(decadeClick, window.isInvasive)
+window.getInvasiveFlowersByDecade = function (decade) {
 
-}
-window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
-
-    window.isInvasive = isInvasive;
+    //window.isInvasive = isInvasive;
+    console.log(decade)
     window.decade = decade;
 
     const params = new URLSearchParams();
@@ -108,15 +122,12 @@ window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
     axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
         clearBellis();
         for (const region in res.data) {
-
             document.querySelectorAll('#' + region).forEach(path => {
-
-                //A clean tard plu
 
                 let img = document.createElement('img');
 
 
-                if (isInvasive)
+                if (res.data[region] >= 50)
                     img.src = '/assets/img/invasive-icon.svg';
                 else
                     img.src = '/assets/img/non-invasive-icon.svg';
