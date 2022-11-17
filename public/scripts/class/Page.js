@@ -17,11 +17,13 @@ export default class Page {
     }
 
     changePage(newPage) {
-        document.querySelector('body>#page' + this.actualPage).style.display = "none"
+        document.querySelector('body>#page' + this.actualPage).classList.add('hidden');
         this.actualPage = newPage
         console.log('body>#page' + this.actualPage)
         console.log(document.querySelector('body>#page' + this.actualPage))
-        document.querySelector('body>#page' + this.actualPage).style.display = "flex";
+        document.querySelector('body>#page' + this.actualPage).classList.add('flex');
+        document.querySelector('body>#page' + this.actualPage).classList.remove('hidden');
+
         return this.actualPage
 
     }
