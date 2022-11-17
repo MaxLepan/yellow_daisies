@@ -1,11 +1,12 @@
 import Page from './class/Page.js'
 import Message from './class/Message.js'
+
 let page, messagepage2, messagepage5
 
 function init() {
     page = new Page(1, document.querySelectorAll('body>section').length);
-    messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text').length, 2);
-    messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text').length, 5);
+    messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
+    messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if (e.target.value) page.changePage(e.target.value)
     })
@@ -47,15 +48,16 @@ function getFlowersByDecade(decade) {
     })
 }
 
-function bellisClick (event) {
+function bellisClick(event) {
     let region = event.target.dataset.region;
 
     console.log(region);
 
 }
+
 let imgs = []
 
-function clearBellis(){
+function clearBellis() {
     imgs?.forEach(img => {
         img.remove();
     })
@@ -65,12 +67,12 @@ window.isInvasive = false;
 window.decade = 1990;
 
 
-window.invasiveClick = function (isInvasiveClick){
-    getInvasiveFlowersByDecade(window.decade.toString(),isInvasiveClick)
+window.invasiveClick = function (isInvasiveClick) {
+    getInvasiveFlowersByDecade(window.decade.toString(), isInvasiveClick)
 }
 
 window.decadeClick = function (decadeClick) {
-    getInvasiveFlowersByDecade(decadeClick,window.isInvasive)
+    getInvasiveFlowersByDecade(decadeClick, window.isInvasive)
 
 }
 
@@ -87,39 +89,39 @@ window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
         clearBellis();
         for (const region in res.data) {
 
-                    document.querySelectorAll('#' + region ).forEach(path => {
+            document.querySelectorAll('#' + region).forEach(path => {
 
-                        //A clean tard plu
+                //A clean tard plu
 
-                        let img = document.createElement('img');
-
-
-                        if (isInvasive)
-                            img.src = '/assets/img/invasive-icon.svg';
-                        else
-                            img.src= '/assets/img/non-invasive-icon.svg';
+                let img = document.createElement('img');
 
 
-                        img.classList.add('img-invasive-add');
-                        let left = `${parseInt(getPositionXY(path)[0])}px`;
-                        let top = `${parseInt(getPositionXY(path)[1])}px`;
-                        img.dataset.region = region;
-                        img.addEventListener("click",bellisClick);
-                        img.style.left = left;
-                        img.style.top = top;
-
-                        imgs.push(img);
-                        document.querySelector('#page6').appendChild(img);
-
-                        function getPositionXY(element) {
-                            var rect = element.getBoundingClientRect();
-                            var childRect = element.children[0].getBoundingClientRect();
-                            return [rect.x + childRect.width/2 - window.innerWidth *0.025,rect.y + childRect.height/2 - window.innerWidth *0.025];
-                        }
+                if (isInvasive)
+                    img.src = '/assets/img/invasive-icon.svg';
+                else
+                    img.src = '/assets/img/non-invasive-icon.svg';
 
 
-                    })
+                img.classList.add('img-invasive-add');
+                let left = `${parseInt(getPositionXY(path)[0])}px`;
+                let top = `${parseInt(getPositionXY(path)[1])}px`;
+                img.dataset.region = region;
+                img.addEventListener("click", bellisClick);
+                img.style.left = left;
+                img.style.top = top;
+
+                imgs.push(img);
+                document.querySelector('#page6').appendChild(img);
+
+                function getPositionXY(element) {
+                    var rect = element.getBoundingClientRect();
+                    var childRect = element.children[0].getBoundingClientRect();
+                    return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
                 }
+
+
+            })
+        }
 
 
     })
