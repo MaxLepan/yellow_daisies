@@ -1,15 +1,12 @@
 module.exports = {
     prefix: 'page-',
     purge: [
-            './public/index.html',
-            './public/**/*.{html,js}',
-        ],
+        './public/index.html',
+        './public/**/*.{html,js}',
+    ],
     darkMode: 'class',
     theme: {
         extend: {
-            fontFamily: {
-                'sans': ['Bubble M', ...defaultTheme.fontFamily.sans],
-            },
             screens: {
                 xs: '360px',
                 sm: '640px',
@@ -17,6 +14,10 @@ module.exports = {
                 lg: '1025px',
                 xl: '1280px',
                 '2xl': '1536px',
+            },
+            colors: {
+                lightGreen: '#CDDDA7',
+                darkGreen: '#A2DAAF',
             },
         },
     },
