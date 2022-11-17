@@ -10,14 +10,15 @@ axios.get('/')
     .then(function (response) {
         // handle success
         console.log(response);
+    document.querySelector('#changepagedebug').addEventListener('input', (e) => {
+        if(e.target.value) page.changePage(e.target.value)
     })
-    .catch(function (error) {
-        // handle error
-        console.log(error);
+    document.querySelectorAll('a.goToNextPage').forEach((button) => {
+        button.addEventListener("click", () => {
+            page.goToNextPage();
+        }, false)
     })
-    .then(function () {
-        console.log("always passed")
-    });
+}
 
 const params = new URLSearchParams();
 params.append('decade', "1990");
@@ -37,7 +38,7 @@ const params2 = new URLSearchParams();
 params2.append('decade', "1990");
 
 axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
-    console.log(res.data["Auvergne-Rhone-Alpes"]);
+    //console.log(res.data["Auvergne-Rhone-Alpes"]);
     let nbPetals = Math.floor(res.data["Auvergne-Rhone-Alpes"]/100*22);
     for (let i = 1; i <= 22; i++) {
         document.querySelectorAll('#_' + i).forEach(path => {

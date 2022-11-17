@@ -3,26 +3,26 @@ export default class Page {
         if (Page._instance) {
             Page._instance.actualPage = actualPage
             Page._instance.nbPages = nbPages
-            Page._instance.skipPage = false
             return Page._instance
         }
         this.actualPage = actualPage
         this.nbPages = nbPages
-        this.skipPage = false
         Page._instance = this;
     }
 
-    canSkipPage() {
-        this.skipPage = true
+    goToNextPage() {
+        if (this.actualPage < this.nbPages) {
+            this.changePage(this.actualPage + 1);
+        }
     }
 
     changePage(newPage) {
-        if (this.changePage) {
-            this.actualPage = newPage
-            this.skipPage = false
-            return this.actualPage
-        }else{
-            throw 'Error you can\'t change the page !';
-        }
+        document.querySelector('body>#page' + this.actualPage).style.display = "none"
+        this.actualPage = newPage
+        console.log('body>#page' + this.actualPage)
+        console.log(document.querySelector('body>#page' + this.actualPage))
+        document.querySelector('body>#page' + this.actualPage).style.display = "flex";
+        return this.actualPage
+
     }
 }
