@@ -199,6 +199,8 @@ function generateBySoil(soil) {
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
     document.querySelector("#page5 .flowerChoice").src = "../assets/img/flower_" + soil + ".svg";
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
+    document.querySelector("#page5 .nameChoice").innerHTML =  soil;
+
 
 }
 
@@ -222,5 +224,6 @@ window.addEventListener('load', () => {
     includeHTML()
     setTimeout(() => {
         init()
+        onGenerateGraph()
     }, 1000)
 })
