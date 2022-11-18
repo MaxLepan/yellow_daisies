@@ -9,6 +9,8 @@ function init() {
     document.querySelector('#page5 .blablaMouetteSearch').classList.add('hidden')
     document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
     document.querySelector('#page9 .buttons').classList.remove('hidden')
+    document.querySelector('#page9 .flowerContainer').classList.remove('hidden')
+    document.querySelector('#page9 .flowersContainer').classList.add('hidden')
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
@@ -92,8 +94,8 @@ function init() {
     document.querySelectorAll('#page9 .next_button').forEach(button => {
         button.addEventListener("click", () => {
             if (messagepage9.actualMessage === 1) {
-                document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
-                document.querySelector('#page9 .buttons').classList.add('hidden')
+                document.querySelector('#page9 .flowerContainer').classList.add('hidden')
+                document.querySelector('#page9 .flowersContainer').classList.remove('hidden')
             }
             if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
                 document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
@@ -302,22 +304,22 @@ function generateBySoil(soil) {
     let soilName
     let species;
     switch (soil) {
-        case 1 :
+        case 1:
             soil = "automn";
             soilName = "la paquerette d'automne"
             species = "Bellis sylvestris"
             break;
-        case 2 :
+        case 2:
             soil = "muraille";
             soilName = "la paquerette des mulailles"
             species = "Erigeron karvinskianus"
             break;
-        case 3 :
+        case 3:
             soil = "prairie";
             soilName = "la paquerette des prairies"
             species = "Bellis annua"
             break;
-        case 4 :
+        case 4:
             soil = "pomponette";
             soilName = "la pomponette"
             species = "Bellis";
@@ -325,7 +327,9 @@ function generateBySoil(soil) {
 
     }
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
-    document.querySelector("#page5 .flowerChoice").src = "../assets/img/flower_" + soil + ".svg";
+    document.querySelectorAll(".flowerChoice").forEach(flower => { flower.src = "../assets/img/flower_" + soil + ".svg"; })
+    document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + soil + "_muraille" + ".svg";
+    document.querySelector("#page8 .mouette").src = "../assets/img/mouette_" + soil + ".svg";
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
 
@@ -346,6 +350,7 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
         })
     }
 })
+
 
 function getSpeciesOccurencesByDecade() {
     const img1 = new Image();
