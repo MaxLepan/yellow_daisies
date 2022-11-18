@@ -22,7 +22,7 @@ function init() {
     document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
         console.log(button)
         button.addEventListener("click", () => {
-            console.log("click",page.actualPage)
+            console.log("click", page.actualPage)
             page.goToNextPage();
         }, false)
     })
@@ -86,13 +86,13 @@ function init() {
     })
     document.querySelectorAll(".regionC")?.forEach((button) => {
         button.addEventListener("click", () => {
-            var idR=button.id;
+            var idR = button.id;
             console.log(idR)
-            onclickRegion(window.decade.toString(),idR);
+            onclickRegion(window.decade.toString(), idR);
         }, false)
     })
     console.log(window.regionButton)
-    
+
 
 
     document.querySelectorAll('#page9 .next_button').forEach(button => {
@@ -100,6 +100,8 @@ function init() {
             if (messagepage9.actualMessage === 1) {
                 document.querySelector('#page9 .flowerContainer').classList.add('hidden')
                 document.querySelector('#page9 .flowersContainer').classList.remove('hidden')
+                document.querySelector('#page9 .buttons').classList.add('hidden')
+                document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
             }
             if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
                 document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
@@ -173,37 +175,42 @@ window.decadeClick = function (decade) {
     }
 }
 
-window.onclickRegion = function(decadeR,id){
+window.onclickRegion = function (decadeR, id) {
     //decter le click de la région
     // afficher les infos de la région pour l'année cliquée
     //btn je visite
     var popup = document.getElementById("defaultModal");
     popup.classList.remove("hidden");
-    popup.ariaHidden="false";
+    popup.ariaHidden = "false";
     var nbFleur;
     const params = new URLSearchParams();
     params.append('decade', decadeR);
     axios.post('/getNbFlowersPerDecade', params).then((res) => {
-        nbFleur=res.data[id];
-        var nomR = document.getElementById("nomRegionC");
-        id=id.replaceAll("_"," ");
-        nomR.innerText=id;
+        nbFleur = res.data[id];
 
-        var nbrFleur = document.getElementById("nombrePaquerettes");
-        nbrFleur.innerHTML="<strong>Nombre de Pâquerette : </strong>"+nbFleur;
-        console.log(nbFleur)
-        var croix = document.getElementById("closeButton");
-        croix.addEventListener("click", () => {
-            popup.classList.add("hidden");
-            popup.ariaHidden="true";
-        }) 
-        console.log(decadeR);
-        //console.log(getFlowersByDecade(decadeR));
+        const params3 = new URLSearchParams();
+        params3.append('decade', decadeR);
+        params3.append('region', id);
+        console.log("after init")
+        axios.post('/getSpeciesWithMostOccurent', params3).then((res2) => {
+            console.log("name Species => ",res2.data.name)
+            var mostSpecies = res2.data.name
+            var nomR = document.getElementById("nomRegionC");
+            nomR.innerText = id;
+            var nbrFleur = document.getElementById("nombrePaquerettes");
+            nbrFleur.innerHTML = "<strong>Nombre de Pâquerette : </strong>" + nbFleur;
+            console.log(nbFleur)
+            var croix = document.getElementById("closeButton");
+            croix.addEventListener("click", () => {
+                popup.classList.add("hidden");
+                popup.ariaHidden = "true";
+            })
+            console.log(decadeR);
+            //console.log(getFlowersByDecade(decadeR));
 
-        console.log(id);
+            console.log(id);
+        })
     })
-    
-    
 }
 
 
@@ -435,7 +442,7 @@ function onGenerateGraph(listCourbes) {
             datasets: listCourbes
         },
         options: {
-            legend: {display: false},
+            legend: { display: false },
             animations: {
                 tension: {
                     duration: 3000,
