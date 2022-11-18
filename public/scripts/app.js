@@ -5,8 +5,10 @@ let page, messagepage2, messagepage5, messagepage9
 
 
 function init() {
-
-    document.querySelector('#page9 .next_button').classList.remove('hidden')
+    document.querySelector('#page5 .sb3').classList.remove('hidden')
+    document.querySelector('#page5 .blablaMouetteSearch').classList.add('hidden')
+    document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
+    document.querySelector('#page9 .buttons').classList.remove('hidden')
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
@@ -41,6 +43,10 @@ function init() {
     })
 
     document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
+        if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
+            document.querySelector('#page5 .sb3').classList.add('hidden')
+            document.querySelector('#page5 .blablaMouetteSearch').classList.remove('hidden')
+        }
         messagepage5.goToNextMessage(page);
     }, false)
     getFlowersByDecade("1990")
@@ -61,12 +67,18 @@ function init() {
         }
     })
 
-    document.querySelector('#page9 .next_button').addEventListener("click", () => {
+    document.querySelectorAll('#page9 .next_button').forEach(button=>{
+        button.addEventListener("click", () => {
+        if (messagepage9.actualMessage === 1) {
+            document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
+            document.querySelector('#page9 .buttons').classList.add('hidden')
+        }
         if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
-            document.querySelector('#page9 .next_button').classList.add('hidden')
+            document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
         }
         messagepage9.goToNextMessage(page);
     }, false)
+    })
 
     document.querySelector('.goToPage-1')?.addEventListener("click", () => {
         init()
@@ -181,25 +193,30 @@ function getChosenSoil() {
 }
 
 function generateBySoil(soil) {
+    let soilName
     switch (soil) {
         case 1 :
             soil = "automn";
+            soilName = "la paquerette d'automne"
             break;
         case 2 :
             soil = "muraille";
+            soilName = "la paquerette des mulailles"
             break;
         case 3 :
             soil = "prairie";
+            soilName = "la paquerette des prairies"
             break;
         case 4 :
             soil = "pomponette";
+            soilName = "la pomponette"
             break;
 
     }
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
     document.querySelector("#page5 .flowerChoice").src = "../assets/img/flower_" + soil + ".svg";
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
-
+    document.querySelector('.nameFlower').innerHTML = soilName
 }
 
 const params2 = new URLSearchParams();
