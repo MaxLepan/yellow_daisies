@@ -186,6 +186,7 @@ window.onclickRegion = function(decadeR,id){
     axios.post('/getNbFlowersPerDecade', params).then((res) => {
         nbFleur=res.data[id];
         var nomR = document.getElementById("nomRegionC");
+        id=id.replaceAll("_"," ");
         nomR.innerText=id;
 
         var nbrFleur = document.getElementById("nombrePaquerettes");
