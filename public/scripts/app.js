@@ -311,7 +311,7 @@ function generateBySoil(soil) {
             break;
         case 2:
             soil = "muraille";
-            soilName = "la paquerette des mulailles"
+            soilName = "la paquerette des murailles"
             species = "Erigeron karvinskianus"
             break;
         case 3:
