@@ -57,7 +57,18 @@ function init() {
         if (invasiveButton.classList.contains('active')) {
             getInvasiveFlowersByDecade(window.decade.toString())
         } else {
-            clearBellis();
+            clearInvasiveBellis();
+        }
+    })
+
+    window.nonInvasiveButton = document.querySelector('#non-invasive-btn')
+    console.log(window.nonInvasiveButton)
+    nonInvasiveButton?.addEventListener("click", () => {
+        nonInvasiveButton.classList.toggle('active')
+        if (nonInvasiveButton.classList.contains('active')) {
+            getNonInvasiveFlowersByDecade(window.decade.toString())
+        } else {
+            clearNonInvasiveBellis();
         }
     })
 
@@ -103,10 +114,17 @@ function bellisClick(event) {
     console.log(region);
 }
 
-let imgs = []
+let imgsInvasive = []
+let imgsNonInvasive = []
 
-function clearBellis() {
-    imgs?.forEach(img => {
+function clearInvasiveBellis() {
+    imgsInvasive?.forEach(img => {
+        img.remove();
+    })
+}
+
+function clearNonInvasiveBellis() {
+    imgsNonInvasive?.forEach(img => {
         img.remove();
     })
 }
@@ -119,6 +137,9 @@ window.decadeClick = function (decade) {
     if (invasiveButton.classList.contains('active')) {
         getInvasiveFlowersByDecade(decade);
     }
+    if (nonInvasiveButton.classList.contains('active')) {
+        getNonInvasiveFlowersByDecade(decade);
+    }
 }
 
 window.getInvasiveFlowersByDecade = function (decade) {
@@ -130,33 +151,72 @@ window.getInvasiveFlowersByDecade = function (decade) {
     params.append('decade', decade);
 
     axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
-        clearBellis();
+        clearInvasiveBellis();
+        for (const region in res.data) {
+            document.querySelectorAll('#' + region).forEach(path => {
+
+                let img = document.createElement('img');
+
+                if (res.data[region] >= 50) {
+                    img.src = '/assets/img/invasive-icon.svg';
+
+                    img.classList.add('img-invasive-add');
+                    let left = `${parseInt(getPositionXY(path)[0])}px`;
+                    let top = `${parseInt(getPositionXY(path)[1])}px`;
+                    img.dataset.region = region;
+                    img.addEventListener("click", bellisClick);
+                    img.style.left = left;
+                    img.style.top = top;
+
+                    imgsInvasive.push(img);
+                    document.querySelector('#page7').appendChild(img);
+                }
+
+                function getPositionXY(element) {
+                    var rect = element.getBoundingClientRect();
+                    var childRect = element.getBoundingClientRect();
+                    return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
+                }
+            })
+        }
+    })
+}
+
+window.getNonInvasiveFlowersByDecade = function (decade) {
+
+    //window.isInvasive = isInvasive;
+    window.decade = decade;
+
+    const params = new URLSearchParams();
+    params.append('decade', decade);
+
+    axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
+        clearNonInvasiveBellis();
         for (const region in res.data) {
             document.querySelectorAll('#' + region).forEach(path => {
 
                 let img = document.createElement('img');
 
 
-                if (res.data[region] >= 50)
-                    img.src = '/assets/img/invasive-icon.svg';
-                else
+                if (res.data[region] < 50) {
                     img.src = '/assets/img/non-invasive-icon.svg';
 
-                img.classList.add('img-invasive-add');
-                let left = `${parseInt(getPositionXY(path)[0])}px`;
-                let top = `${parseInt(getPositionXY(path)[1])}px`;
-                img.dataset.region = region;
-                img.addEventListener("click", bellisClick);
-                img.style.left = left;
-                img.style.top = top;
+                    img.classList.add('img-invasive-add');
+                    let left = `${parseInt(getPositionXY(path)[0])}px`;
+                    let top = `${parseInt(getPositionXY(path)[1])}px`;
+                    img.dataset.region = region;
+                    img.addEventListener("click", bellisClick);
+                    img.style.left = left;
+                    img.style.top = top;
 
-                imgs.push(img);
-                document.querySelector('#page7').appendChild(img);
+                    imgsNonInvasive.push(img);
+                    document.querySelector('#page7').appendChild(img);
 
-                function getPositionXY(element) {
-                    var rect = element.getBoundingClientRect();
-                    var childRect = element.getBoundingClientRect();
-                    return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
+                    function getPositionXY(element) {
+                        var rect = element.getBoundingClientRect();
+                        var childRect = element.getBoundingClientRect();
+                        return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
+                    }
                 }
             })
         }
