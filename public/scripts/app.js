@@ -68,7 +68,6 @@ function init() {
             getInvasiveFlowersByDecade(window.decade.toString())
         } else {
             invasiveButton.querySelector('img').src = '/assets/img/invasive-filter-off.svg'
-            invasiveButton.querySelector('img').style.filter = 'greyscale(100%)'
             clearInvasiveBellis();
         }
     })
