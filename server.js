@@ -54,15 +54,26 @@ app.post('/getSpeciesOccurrencesByDecade', (req, res) => {
 app.post('/getSpeciesWithMostOccurent', (req, res) => {
     let decade = parseInt(req.body.decade);
     let region = req.body.region;
+    console.log("before switch")
     switch(getSpeciesWithMostOccurent(parseBySpecies(filterByRegion(region, filterByDecade(decade))))){
         case "Bellis sylvestris":
+            console.log("automn")
             res.send({name:"automn"});
+            break;
         case "Erigeron jarvinskianus":
+            console.log("muraille")
             res.send({name:"muraille"});
+            break;
         case "Bellis annua":
+            console.log("prairie")
             res.send({name:"prairie"});
+            break;
         case "Bellis":
+            console.log("pomponette")
             res.send({name:"pomponette"});
+            break;
+        default:
+            break;
     }
     
 })
@@ -76,15 +87,18 @@ app.post('/getSpeciesOccurrencesBySpecies', (req, res) => {
 
 function getSpeciesWithMostOccurent(obj){
     let mostSpecies = ""
+    
     for(species in obj){
-        if(mostSpecies && obj[mostSpecies] < obj[species]){
+        console.log("species => ", species)
+        if(!mostSpecies || obj[mostSpecies] < obj[species]){
             mostSpecies = species
         }
     }
+    console.log("species select => ", mostSpecies)
     return mostSpecies
 }
 
-function parseBySpecies(oldArr = daisies){
+function parseBySpecies(arr = daisies){
     let obj = {};
     for (let i = 0, j = arr.length; i < j; i++) {
         if (obj[arr[i].nomScientifiqueRef]) {
