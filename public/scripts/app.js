@@ -41,7 +41,7 @@ function init() {
             window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
-
+    getSpeciesOccurencesByDecade();
     document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
             document.querySelector('#page5 .sb3').classList.add('hidden')
@@ -301,32 +301,58 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
 })
 
 function getSpeciesOccurencesByDecade() {
-    const listCourbes = [{
-        borderColor: "#EEAAFF",
-        fill: false,
-        pointRadius: 20,
-        pointBackgroundColor: fillPattern
-    }, {
-        borderColor: "#F8CCD0",
-        fill: false,
-    }, {
-        borderColor: "#FFCD50",
-        fill: false
-    }, {
-        borderColor: "#A7214B",
-        fill: false
-    }]
-    const listSpecies=["Bellis sylvestris","Erigeron karvinskianus", "Bellis annua", "Bellis"];
-    listSpecies.forEach((speciesName,i) => {
-        listCourbes[i].data=[];
-        for(let j=0; j< 4; j++) {
+    const img1 = new Image();
+    img1.src = '../assets/img/automnChart.png';
+    const img2 = new Image();
+    img2.src = '../assets/img/automnChart.png';
+    const img3 = new Image();
+    img3.src = '../assets/img/automnChart.png';
+    const img4 = new Image();
+    img4.src = '../assets/img/automnChart.png';
+
+    img1.onload = function () {
+        img2.onload = function () {
+            img3.onload = function () {
+                img4.onload = function () {
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    const fillPattern1 = ctx.createPattern(img1, 'repeat');
+                    const fillPattern2 = ctx.createPattern(img2, 'repeat');
+                    const fillPattern3 = ctx.createPattern(img3, 'repeat');
+                    const fillPattern4 = ctx.createPattern(img4, 'repeat');
+                    const listCourbes = [{
+                        borderColor: "#EEAAFF",
+                        fill: false,
+                        pointRadius: 20,
+                        pointBackground: fillPattern1
+                    }, {
+                        borderColor: "#F8CCD0",
+                        fill: false,
+                        pointBackground: fillPattern1
+                    }, {
+                        borderColor: "#FFCD50",
+                        fill: false,
+                        pointBackground: fillPattern1
+                    }, {
+                        borderColor: "#A7214B",
+                        fill: false,
+                        pointBackground: fillPattern1
+                    }]
+                }
+            }
+        }
+    }
+    const listSpecies = ["Bellis sylvestris", "Erigeron karvinskianus", "Bellis annua", "Bellis"];
+    listSpecies.forEach((speciesName, i) => {
+        listCourbes[i].data = [];
+        for (let j = 0; j < 4; j++) {
             let params = new URLSearchParams();
-            params.append('decade', (1990 + j*10)+"");
+            params.append('decade', (1990 + j * 10) + "");
             params.append('species', speciesName);
             params.append('region', "Occitanie");
-            axios.post('/getSpeciesOccurencesByDecade', params).then((res) => {
-                let values = Object.values(res.data);
-                listCourbes[i].data.push(values);
+            axios.post('/getSpeciesOccurrencesBySpecies', params).then((res) => {
+                console.log(res)
+                let value = res.data.nb;
+                listCourbes[i].data.push(value);
 
             })
         }
@@ -338,40 +364,31 @@ function getSpeciesOccurencesByDecade() {
 }
 
 function onGenerateGraph(listCourbes) {
-    const img = new Image();
-    img.src = '../assets/img/prairieChart.png';
-
-    img.onload = function () {
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const fillPattern = ctx.createPattern(img, 'repeat');
-        var xValues = [1990, 2000, 2010, 2020];
-        var myChart = new Chart("myChart", {
-            type: "line",
-            borderColor: "#4F2F2F",
-            color: "#4F2F2F",
-            data: {
-                labels: xValues,
-                datasets: listCourbes
+    var xValues = [1990, 2000, 2010, 2020];
+    var myChart = new Chart("myChart", {
+        type: "line",
+        borderColor: "#4F2F2F",
+        color: "#4F2F2F",
+        data: {
+            labels: xValues,
+            datasets: listCourbes
+        },
+        options: {
+            legend: {display: false},
+            events: ['click'],
+            animations: {
+                tension: {
+                    duration: 1000,
+                    easing: 'linear',
+                    from: 1,
+                    to: 0,
+                    loop: true
+                }
             },
-            options: {
-                legend: {display: false},
-                events: ['click'],
-                animations: {
-                    tension: {
-                        duration: 1000,
-                        easing: 'linear',
-                        from: 1,
-                        to: 0,
-                        loop: true
-                    }
-                },
-            }
-        });
-
-    };
+        }
+    });
     console.log("dom ok")
 }
-
 
 
 window.addEventListener('load', () => {

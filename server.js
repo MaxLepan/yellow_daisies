@@ -48,7 +48,8 @@ app.post('/getSpeciesOccurrencesBySpecies', (req, res) => {
     let decade = parseInt(req.body.decade);
     let species = req.body.species;
     let region = req.body.region;
-    res.send(parseByRegion((filterBySpecies(species, filterByDecade(decade))))[region]);
+    console.log(parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region])
+    res.send({nb:parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region]||0});
 })
 
 function filterByDecade(decade, oldArr = daisies) {
