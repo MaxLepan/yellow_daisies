@@ -38,7 +38,7 @@ function init() {
     document.querySelectorAll('#page3 .goToNextPage')?.forEach(soil => {
         soil.addEventListener("click", () => {
             getChosenSoil();
-            window.setTimeout(() => page.goToNextPage(), 5.9 * 1000);
+            window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
 
@@ -63,7 +63,18 @@ function init() {
         if (invasiveButton.classList.contains('active')) {
             getInvasiveFlowersByDecade(window.decade.toString())
         } else {
-            clearBellis();
+            clearInvasiveBellis();
+        }
+    })
+
+    window.nonInvasiveButton = document.querySelector('#non-invasive-btn')
+    console.log(window.nonInvasiveButton)
+    nonInvasiveButton?.addEventListener("click", () => {
+        nonInvasiveButton.classList.toggle('active')
+        if (nonInvasiveButton.classList.contains('active')) {
+            getNonInvasiveFlowersByDecade(window.decade.toString())
+        } else {
+            clearNonInvasiveBellis();
         }
     })
 
@@ -115,10 +126,17 @@ function bellisClick(event) {
     console.log(region);
 }
 
-let imgs = []
+let imgsInvasive = []
+let imgsNonInvasive = []
 
-function clearBellis() {
-    imgs?.forEach(img => {
+function clearInvasiveBellis() {
+    imgsInvasive?.forEach(img => {
+        img.remove();
+    })
+}
+
+function clearNonInvasiveBellis() {
+    imgsNonInvasive?.forEach(img => {
         img.remove();
     })
 }
@@ -131,6 +149,9 @@ window.decadeClick = function (decade) {
     if (invasiveButton.classList.contains('active')) {
         getInvasiveFlowersByDecade(decade);
     }
+    if (nonInvasiveButton.classList.contains('active')) {
+        getNonInvasiveFlowersByDecade(decade);
+    }
 }
 
 window.getInvasiveFlowersByDecade = function (decade) {
@@ -142,33 +163,72 @@ window.getInvasiveFlowersByDecade = function (decade) {
     params.append('decade', decade);
 
     axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
-        clearBellis();
+        clearInvasiveBellis();
+        for (const region in res.data) {
+            document.querySelectorAll('#' + region).forEach(path => {
+
+                let img = document.createElement('img');
+
+                if (res.data[region] >= 50) {
+                    img.src = '/assets/img/invasive-icon.svg';
+
+                    img.classList.add('img-invasive-add');
+                    let left = `${parseInt(getPositionXY(path)[0])}px`;
+                    let top = `${parseInt(getPositionXY(path)[1])}px`;
+                    img.dataset.region = region;
+                    img.addEventListener("click", bellisClick);
+                    img.style.left = left;
+                    img.style.top = top;
+
+                    imgsInvasive.push(img);
+                    document.querySelector('#page7').appendChild(img);
+                }
+
+                function getPositionXY(element) {
+                    var rect = element.getBoundingClientRect();
+                    var childRect = element.getBoundingClientRect();
+                    return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
+                }
+            })
+        }
+    })
+}
+
+window.getNonInvasiveFlowersByDecade = function (decade) {
+
+    //window.isInvasive = isInvasive;
+    window.decade = decade;
+
+    const params = new URLSearchParams();
+    params.append('decade', decade);
+
+    axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
+        clearNonInvasiveBellis();
         for (const region in res.data) {
             document.querySelectorAll('#' + region).forEach(path => {
 
                 let img = document.createElement('img');
 
 
-                if (res.data[region] >= 50)
-                    img.src = '/assets/img/invasive-icon.svg';
-                else
+                if (res.data[region] < 50) {
                     img.src = '/assets/img/non-invasive-icon.svg';
 
-                img.classList.add('img-invasive-add');
-                let left = `${parseInt(getPositionXY(path)[0])}px`;
-                let top = `${parseInt(getPositionXY(path)[1])}px`;
-                img.dataset.region = region;
-                img.addEventListener("click", bellisClick);
-                img.style.left = left;
-                img.style.top = top;
+                    img.classList.add('img-invasive-add');
+                    let left = `${parseInt(getPositionXY(path)[0])}px`;
+                    let top = `${parseInt(getPositionXY(path)[1])}px`;
+                    img.dataset.region = region;
+                    img.addEventListener("click", bellisClick);
+                    img.style.left = left;
+                    img.style.top = top;
 
-                imgs.push(img);
-                document.querySelector('#page7').appendChild(img);
+                    imgsNonInvasive.push(img);
+                    document.querySelector('#page7').appendChild(img);
 
-                function getPositionXY(element) {
-                    var rect = element.getBoundingClientRect();
-                    var childRect = element.getBoundingClientRect();
-                    return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
+                    function getPositionXY(element) {
+                        var rect = element.getBoundingClientRect();
+                        var childRect = element.getBoundingClientRect();
+                        return [rect.x + childRect.width / 2 - window.innerWidth * 0.025, rect.y + childRect.height / 2 - window.innerWidth * 0.025];
+                    }
                 }
             })
         }
@@ -234,10 +294,76 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
         })
     }
 })
+axios.post('/getSpeciesOccurrencesByDecade', params2).then((res) => {
+    let values = Object.values(res.data)
+    const max = Math.max(...values)
+    const min = Math.min(...values)
+    document.querySelectorAll("img").forEach((img) => {
+
+    })
+})
+
+function onGenerateGraph() {
+    const img = new Image();
+    img.src = '../assets/img/prairieChart.png';
+    img.onload = function() {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const fillPattern = ctx.createPattern(img, 'repeat');
+        var xValues = [1990,2000,2010,2020];
+        var myChart = new Chart("myChart", {
+            type: "line",
+            borderColor:"#4F2F2F",
+            color:"#4F2F2F",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+                    borderColor: "#EEAAFF",
+                    fill: false,
+                    pointRadius: 20,
+                    pointBackgroundColor:fillPattern
+                },{
+                    data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
+                    borderColor: "#F8CCD0",
+                    fill: false,
+                },{
+                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
+                    borderColor: "#FFCD50",
+                    fill: false
+                },{
+                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
+                    borderColor: "#A7214B",
+                    fill: false
+                }]
+            },
+            options: {
+                legend: {display: false},
+                events: ['click'],
+                animations: {
+                    tension: {
+                        duration: 1000,
+                        easing: 'linear',
+                        from: 1,
+                        to: 0,
+                        loop: true
+                    }
+                },
+            }
+        });
+
+    };
+
+
+    console.log("dom ok")
+
+}
+
+
 
 window.addEventListener('load', () => {
     includeHTML()
     setTimeout(() => {
         init()
+        onGenerateGraph()
     }, 1000)
 })
