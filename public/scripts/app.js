@@ -197,7 +197,43 @@ window.onclickRegion = function (decadeR, id) {
         params3.append('region', id);
         console.log("after init")
         axios.post('/getSpeciesWithMostOccurent', params3).then((res2) => {
+            console.log("salam")
             console.log("name Species => ",res2.data.name)
+            var soil;
+            var soilName;
+            var species;
+            switch (res2.data.name) {
+                case "automn":
+                    soil = "La forêt";
+                    soilName = "la paquerette d'automne"
+                    species = "Bellis sylvestris"
+                    break;
+                case "muraille":
+                    soil = "Les cailloux";
+                    soilName = "la paquerette des murailles"
+                    species = "Erigeron karvinskianus"
+                    break;
+                case "prairie":
+                    soil = "La prairie";
+                    soilName = "la paquerette des prairies"
+                    species = "Bellis annua"
+                    break;
+                case "pomponette":
+                    soil = "Le jardin";
+                    soilName = "la pomponette"
+                    species = "Bellis";
+                    break;
+            }
+            var np=document.getElementById("nomPaquerette");
+                    
+            np.innerText=soilName;
+            var npS=document.getElementById("nomPaqueretteS");
+                    
+            npS.innerText=species;
+            var sol=document.getElementById("sol");
+                    
+            sol.innerHTML = "<strong>Type de sol : </strong>" + soil;
+
             var mostSpecies = res2.data.name
             var nomR = document.getElementById("nomRegionC");
             nomR.innerText = id;
