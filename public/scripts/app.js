@@ -20,6 +20,7 @@ function init() {
     document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
         console.log(button)
         button.addEventListener("click", () => {
+            console.log("click",page.actualPage)
             page.goToNextPage();
         }, false)
     })
@@ -77,6 +78,16 @@ function init() {
             clearNonInvasiveBellis();
         }
     })
+    document.querySelectorAll(".regionC")?.forEach((button) => {
+        button.addEventListener("click", () => {
+            var idR=button.id;
+            console.log(idR)
+            onclickRegion(window.decade.toString(),idR);
+        }, false)
+    })
+    console.log(window.regionButton)
+    
+
 
     document.querySelectorAll('#page9 .next_button').forEach(button => {
         button.addEventListener("click", () => {
@@ -121,6 +132,8 @@ function getFlowersByDecade(decade) {
     })
 }
 
+
+
 function bellisClick(event) {
     let region = event.target.dataset.region;
     console.log(region);
@@ -153,6 +166,40 @@ window.decadeClick = function (decade) {
         getNonInvasiveFlowersByDecade(decade);
     }
 }
+
+window.onclickRegion = function(decadeR,id){
+    //decter le click de la région
+    // afficher les infos de la région pour l'année cliquée
+    //btn je visite
+    var popup = document.getElementById("defaultModal");
+    popup.classList.remove("hidden");
+    popup.ariaHidden="false";
+    var nbFleur;
+    const params = new URLSearchParams();
+    params.append('decade', decadeR);
+    axios.post('/getNbFlowersPerDecade', params).then((res) => {
+        nbFleur=res.data[id];
+        var nomR = document.getElementById("nomRegionC");
+        nomR.innerText=id;
+
+        var nbrFleur = document.getElementById("nombrePaquerettes");
+        nbrFleur.innerHTML="<strong>Nombre de Pâquerette : </strong>"+nbFleur;
+        console.log(nbFleur)
+        var croix = document.getElementById("closeButton");
+        croix.addEventListener("click", () => {
+            popup.classList.add("hidden");
+            popup.ariaHidden="true";
+        }) 
+        console.log(decadeR);
+        //console.log(getFlowersByDecade(decadeR));
+
+        console.log(id);
+    })
+    
+    
+}
+
+
 
 window.getInvasiveFlowersByDecade = function (decade) {
 
@@ -304,63 +351,67 @@ function getSpeciesOccurencesByDecade() {
     const img1 = new Image();
     img1.src = '../assets/img/automnChart.png';
     const img2 = new Image();
-    img2.src = '../assets/img/automnChart.png';
+    img2.src = '../assets/img/murailleChart.png';
     const img3 = new Image();
-    img3.src = '../assets/img/automnChart.png';
+    img3.src = '../assets/img/prairieChart.png';
     const img4 = new Image();
-    img4.src = '../assets/img/automnChart.png';
+    img4.src = '../assets/img/pomponetteChart.png';
 
     img1.onload = function () {
         img2.onload = function () {
             img3.onload = function () {
                 img4.onload = function () {
                     const ctx = document.getElementById('myChart').getContext('2d');
+
                     const fillPattern1 = ctx.createPattern(img1, 'repeat');
                     const fillPattern2 = ctx.createPattern(img2, 'repeat');
                     const fillPattern3 = ctx.createPattern(img3, 'repeat');
                     const fillPattern4 = ctx.createPattern(img4, 'repeat');
+
                     const listCourbes = [{
                         borderColor: "#EEAAFF",
                         fill: false,
                         pointRadius: 20,
-                        pointBackground: fillPattern1
+                        pointBackgroundColor: fillPattern1
                     }, {
                         borderColor: "#F8CCD0",
                         fill: false,
-                        pointBackground: fillPattern1
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern2
                     }, {
                         borderColor: "#FFCD50",
                         fill: false,
-                        pointBackground: fillPattern1
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern3
                     }, {
                         borderColor: "#A7214B",
                         fill: false,
-                        pointBackground: fillPattern1
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern4
                     }]
+
+                    const listSpecies = ["Bellis sylvestris", "Erigeron karvinskianus", "Bellis annua", "Bellis"];
+                    listSpecies.forEach((speciesName, i) => {
+                        listCourbes[i].data = [];
+                        for (let j = 0; j < 4; j++) {
+                            let params = new URLSearchParams();
+                            params.append('decade', (1990 + j * 10) + "");
+                            params.append('species', speciesName);
+                            params.append('region', "Occitanie");
+                            axios.post('/getSpeciesOccurrencesBySpecies', params).then((res) => {
+                                console.log(res)
+                                let value = res.data.nb;
+                                listCourbes[i].data.push(value);
+
+                            })
+                        }
+
+                    })
+                    onGenerateGraph(listCourbes);
                 }
             }
         }
     }
-    const listSpecies = ["Bellis sylvestris", "Erigeron karvinskianus", "Bellis annua", "Bellis"];
-    listSpecies.forEach((speciesName, i) => {
-        listCourbes[i].data = [];
-        for (let j = 0; j < 4; j++) {
-            let params = new URLSearchParams();
-            params.append('decade', (1990 + j * 10) + "");
-            params.append('species', speciesName);
-            params.append('region', "Occitanie");
-            axios.post('/getSpeciesOccurrencesBySpecies', params).then((res) => {
-                console.log(res)
-                let value = res.data.nb;
-                listCourbes[i].data.push(value);
-
-            })
-        }
-
-    })
-    onGenerateGraph(listCourbes);
-
-
 }
 
 function onGenerateGraph(listCourbes) {
@@ -375,10 +426,9 @@ function onGenerateGraph(listCourbes) {
         },
         options: {
             legend: {display: false},
-            events: ['click'],
             animations: {
                 tension: {
-                    duration: 1000,
+                    duration: 3000,
                     easing: 'linear',
                     from: 1,
                     to: 0,

@@ -12,7 +12,7 @@ export default class Page {
 
     goToNextPage() {
         if (this.actualPage < this.nbPages) {
-            this.changePage(this.actualPage + 1);
+            this.changePage(parseInt(this.actualPage) + 1);
         }
     }
 
