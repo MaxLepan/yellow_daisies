@@ -26,6 +26,13 @@ app.post('/getNbFlowersPerDecade', (req, res) => {
     res.send(parseByRegion(filterByDecade(decade)));
 });
 
+app.post('/getNbFlowersPerDecadePerRegion', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    let region=req.body.region
+    
+    res.send(parseByRegion(filterByDecade(decade)));
+});
+
 app.post('/getNbInvasiveFlowersPerDecade', (req, res) => {
     let decade = parseInt(req.body.decade);
     res.send(parseByRegion(filterByInvasive(true, filterByDecade(decade))));
@@ -58,6 +65,13 @@ app.post('/getSpeciesWithMostOccurent', (req, res) => {
             res.send({name:"pomponette"});
     }
     
+})
+app.post('/getSpeciesOccurrencesBySpecies', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    let species = req.body.species;
+    let region = req.body.region;
+    console.log(parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region])
+    res.send({nb:parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region]||0});
 })
 
 function getSpeciesWithMostOccurent(obj){
@@ -122,6 +136,15 @@ function filterByInvasive(isInvasive, oldArr = daisies) {
         if (isInvasive && oldArr[i].nomScientifiqueRef === "Erigeron karvinskianus") {
             arr.push(oldArr[i]);
         } else if (!isInvasive && oldArr[i].nomScientifiqueRef !== "Erigeron karvinskianus") {
+            arr.push(oldArr[i]);
+        }
+    }
+    return arr;
+}
+function filterBySpecies(species, oldArr = daisies) {
+    let arr = [];
+    for (let i = 0, j = oldArr.length; i < j; i++) {
+        if (oldArr[i].nomScientifiqueRef === species) {
             arr.push(oldArr[i]);
         }
     }

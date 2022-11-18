@@ -22,6 +22,7 @@ function init() {
     document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
         console.log(button)
         button.addEventListener("click", () => {
+            console.log("click",page.actualPage)
             page.goToNextPage();
         }, false)
     })
@@ -43,7 +44,7 @@ function init() {
             window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
-
+    getSpeciesOccurencesByDecade();
     document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
             document.querySelector('#page5 .sb3').classList.add('hidden')
@@ -79,12 +80,20 @@ function init() {
             clearNonInvasiveBellis();
         }
     })
+    document.querySelectorAll(".regionC")?.forEach((button) => {
+        button.addEventListener("click", () => {
+            var idR=button.id;
+            console.log(idR)
+            onclickRegion(window.decade.toString(),idR);
+        }, false)
+    })
+    console.log(window.regionButton)
+    
+
 
     document.querySelectorAll('#page9 .next_button').forEach(button => {
         button.addEventListener("click", () => {
             if (messagepage9.actualMessage === 1) {
-                document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
-                document.querySelector('#page9 .buttons').classList.add('hidden')
                 document.querySelector('#page9 .flowerContainer').classList.add('hidden')
                 document.querySelector('#page9 .flowersContainer').classList.remove('hidden')
             }
@@ -125,6 +134,8 @@ function getFlowersByDecade(decade) {
     })
 }
 
+
+
 function bellisClick(event) {
     let region = event.target.dataset.region;
     console.log(region);
@@ -157,6 +168,40 @@ window.decadeClick = function (decade) {
         getNonInvasiveFlowersByDecade(decade);
     }
 }
+
+window.onclickRegion = function(decadeR,id){
+    //decter le click de la région
+    // afficher les infos de la région pour l'année cliquée
+    //btn je visite
+    var popup = document.getElementById("defaultModal");
+    popup.classList.remove("hidden");
+    popup.ariaHidden="false";
+    var nbFleur;
+    const params = new URLSearchParams();
+    params.append('decade', decadeR);
+    axios.post('/getNbFlowersPerDecade', params).then((res) => {
+        nbFleur=res.data[id];
+        var nomR = document.getElementById("nomRegionC");
+        nomR.innerText=id;
+
+        var nbrFleur = document.getElementById("nombrePaquerettes");
+        nbrFleur.innerHTML="<strong>Nombre de Pâquerette : </strong>"+nbFleur;
+        console.log(nbFleur)
+        var croix = document.getElementById("closeButton");
+        croix.addEventListener("click", () => {
+            popup.classList.add("hidden");
+            popup.ariaHidden="true";
+        }) 
+        console.log(decadeR);
+        //console.log(getFlowersByDecade(decadeR));
+
+        console.log(id);
+    })
+    
+    
+}
+
+
 
 window.getInvasiveFlowersByDecade = function (decade) {
 
@@ -239,7 +284,6 @@ window.getNonInvasiveFlowersByDecade = function (decade) {
     })
 }
 
-
 getFlowersByDecade("1990")
 document.querySelectorAll(".year-btn").forEach((button) => {
     button.addEventListener("click", () => {
@@ -258,22 +302,27 @@ function getChosenSoil() {
 
 function generateBySoil(soil) {
     let soilName
+    let species;
     switch (soil) {
         case 1:
             soil = "automn";
             soilName = "la paquerette d'automne"
+            species = "Bellis sylvestris"
             break;
         case 2:
             soil = "muraille";
             soilName = "la paquerette des mulailles"
+            species = "Erigeron karvinskianus"
             break;
         case 3:
             soil = "prairie";
             soilName = "la paquerette des prairies"
+            species = "Bellis annua"
             break;
         case 4:
             soil = "pomponette";
             soilName = "la pomponette"
+            species = "Bellis";
             break;
 
     }
@@ -283,10 +332,11 @@ function generateBySoil(soil) {
     document.querySelector("#page8 .mouette").src = "../assets/img/mouette_" + soil + ".svg";
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
+
+    window.species = species;
 }
 
 const params2 = new URLSearchParams();
-
 params2.append('decade', "1990");
 
 axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
@@ -300,70 +350,100 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
         })
     }
 })
-axios.post('/getSpeciesOccurrencesByDecade', params2).then((res) => {
-    let values = Object.values(res.data)
-    const max = Math.max(...values)
-    const min = Math.min(...values)
-    document.querySelectorAll("img").forEach((img) => {
 
-    })
-})
 
-function onGenerateGraph() {
-    const img = new Image();
-    img.src = '../assets/img/prairieChart.png';
-    img.onload = function () {
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const fillPattern = ctx.createPattern(img, 'repeat');
-        var xValues = [1990, 2000, 2010, 2020];
-        var myChart = new Chart("myChart", {
-            type: "line",
-            borderColor: "#4F2F2F",
-            color: "#4F2F2F",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
-                    borderColor: "#EEAAFF",
-                    fill: false,
-                    pointRadius: 20,
-                    pointBackgroundColor: fillPattern
-                }, {
-                    data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
-                    borderColor: "#F8CCD0",
-                    fill: false,
-                }, {
-                    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
-                    borderColor: "#FFCD50",
-                    fill: false
-                }, {
-                    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
-                    borderColor: "#A7214B",
-                    fill: false
-                }]
-            },
-            options: {
-                legend: { display: false },
-                events: ['click'],
-                animations: {
-                    tension: {
-                        duration: 1000,
-                        easing: 'linear',
-                        from: 1,
-                        to: 0,
-                        loop: true
-                    }
-                },
+function getSpeciesOccurencesByDecade() {
+    const img1 = new Image();
+    img1.src = '../assets/img/automnChart.png';
+    const img2 = new Image();
+    img2.src = '../assets/img/murailleChart.png';
+    const img3 = new Image();
+    img3.src = '../assets/img/prairieChart.png';
+    const img4 = new Image();
+    img4.src = '../assets/img/pomponetteChart.png';
+
+    img1.onload = function () {
+        img2.onload = function () {
+            img3.onload = function () {
+                img4.onload = function () {
+                    const ctx = document.getElementById('myChart').getContext('2d');
+
+                    const fillPattern1 = ctx.createPattern(img1, 'repeat');
+                    const fillPattern2 = ctx.createPattern(img2, 'repeat');
+                    const fillPattern3 = ctx.createPattern(img3, 'repeat');
+                    const fillPattern4 = ctx.createPattern(img4, 'repeat');
+
+                    const listCourbes = [{
+                        borderColor: "#EEAAFF",
+                        fill: false,
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern1
+                    }, {
+                        borderColor: "#F8CCD0",
+                        fill: false,
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern2
+                    }, {
+                        borderColor: "#FFCD50",
+                        fill: false,
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern3
+                    }, {
+                        borderColor: "#A7214B",
+                        fill: false,
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern4
+                    }]
+
+                    const listSpecies = ["Bellis sylvestris", "Erigeron karvinskianus", "Bellis annua", "Bellis"];
+                    listSpecies.forEach((speciesName, i) => {
+                        listCourbes[i].data = [];
+                        for (let j = 0; j < 4; j++) {
+                            let params = new URLSearchParams();
+                            params.append('decade', (1990 + j * 10) + "");
+                            params.append('species', speciesName);
+                            params.append('region', "Occitanie");
+                            axios.post('/getSpeciesOccurrencesBySpecies', params).then((res) => {
+                                console.log(res)
+                                let value = res.data.nb;
+                                listCourbes[i].data.push(value);
+
+                            })
+                        }
+
+                    })
+                    onGenerateGraph(listCourbes);
+                }
             }
-        });
-
-    };
-
-
-    console.log("dom ok")
-
+        }
+    }
 }
 
+function onGenerateGraph(listCourbes) {
+    var xValues = [1990, 2000, 2010, 2020];
+    var myChart = new Chart("myChart", {
+        type: "line",
+        borderColor: "#4F2F2F",
+        color: "#4F2F2F",
+        data: {
+            labels: xValues,
+            datasets: listCourbes
+        },
+        options: {
+            legend: {display: false},
+            animations: {
+                tension: {
+                    duration: 3000,
+                    easing: 'linear',
+                    from: 1,
+                    to: 0,
+                    loop: true
+                }
+            },
+        }
+    });
+    console.log("dom ok")
+}
 
 
 window.addEventListener('load', () => {
