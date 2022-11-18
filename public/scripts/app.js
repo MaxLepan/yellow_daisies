@@ -78,17 +78,17 @@ function init() {
         }
     })
 
-    document.querySelectorAll('#page9 .next_button').forEach(button=>{
+    document.querySelectorAll('#page9 .next_button').forEach(button => {
         button.addEventListener("click", () => {
-        if (messagepage9.actualMessage === 1) {
-            document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
-            document.querySelector('#page9 .buttons').classList.add('hidden')
-        }
-        if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
-            document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
-        }
-        messagepage9.goToNextMessage(page);
-    }, false)
+            if (messagepage9.actualMessage === 1) {
+                document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
+                document.querySelector('#page9 .buttons').classList.add('hidden')
+            }
+            if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
+                document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
+            }
+            messagepage9.goToNextMessage(page);
+        }, false)
     })
 
     document.querySelector('.goToPage-1')?.addEventListener("click", () => {
@@ -235,7 +235,6 @@ window.getNonInvasiveFlowersByDecade = function (decade) {
     })
 }
 
-
 getFlowersByDecade("1990")
 document.querySelectorAll(".year-btn").forEach((button) => {
     button.addEventListener("click", () => {
@@ -254,22 +253,27 @@ function getChosenSoil() {
 
 function generateBySoil(soil) {
     let soilName
+    let species;
     switch (soil) {
         case 1 :
             soil = "automn";
             soilName = "la paquerette d'automne"
+            species = "Bellis sylvestris"
             break;
         case 2 :
             soil = "muraille";
             soilName = "la paquerette des mulailles"
+            species = "Erigeron karvinskianus"
             break;
         case 3 :
             soil = "prairie";
             soilName = "la paquerette des prairies"
+            species = "Bellis annua"
             break;
         case 4 :
             soil = "pomponette";
             soilName = "la pomponette"
+            species = "Bellis";
             break;
 
     }
@@ -277,10 +281,11 @@ function generateBySoil(soil) {
     document.querySelector("#page5 .flowerChoice").src = "../assets/img/flower_" + soil + ".svg";
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
+
+    window.species = species;
 }
 
 const params2 = new URLSearchParams();
-
 params2.append('decade', "1990");
 
 axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
@@ -294,47 +299,59 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
         })
     }
 })
-axios.post('/getSpeciesOccurrencesByDecade', params2).then((res) => {
-    let values = Object.values(res.data)
-    const max = Math.max(...values)
-    const min = Math.min(...values)
-    document.querySelectorAll("img").forEach((img) => {
+
+function getSpeciesOccurencesByDecade() {
+    const listCourbes = [{
+        borderColor: "#EEAAFF",
+        fill: false,
+        pointRadius: 20,
+        pointBackgroundColor: fillPattern
+    }, {
+        borderColor: "#F8CCD0",
+        fill: false,
+    }, {
+        borderColor: "#FFCD50",
+        fill: false
+    }, {
+        borderColor: "#A7214B",
+        fill: false
+    }]
+    const listSpecies=["Bellis sylvestris","Erigeron karvinskianus", "Bellis annua", "Bellis"];
+    listSpecies.forEach((speciesName,i) => {
+        listCourbes[i].data=[];
+        for(let j=0; j< 4; j++) {
+            let params = new URLSearchParams();
+            params.append('decade', (1990 + j*10)+"");
+            params.append('species', speciesName);
+            params.append('region', "Occitanie");
+            axios.post('/getSpeciesOccurencesByDecade', params).then((res) => {
+                let values = Object.values(res.data);
+                listCourbes[i].data.push(values);
+
+            })
+        }
 
     })
-})
+    onGenerateGraph(listCourbes);
 
-function onGenerateGraph() {
+
+}
+
+function onGenerateGraph(listCourbes) {
     const img = new Image();
     img.src = '../assets/img/prairieChart.png';
-    img.onload = function() {
+
+    img.onload = function () {
         const ctx = document.getElementById('myChart').getContext('2d');
         const fillPattern = ctx.createPattern(img, 'repeat');
-        var xValues = [1990,2000,2010,2020];
+        var xValues = [1990, 2000, 2010, 2020];
         var myChart = new Chart("myChart", {
             type: "line",
-            borderColor:"#4F2F2F",
-            color:"#4F2F2F",
+            borderColor: "#4F2F2F",
+            color: "#4F2F2F",
             data: {
                 labels: xValues,
-                datasets: [{
-                    data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
-                    borderColor: "#EEAAFF",
-                    fill: false,
-                    pointRadius: 20,
-                    pointBackgroundColor:fillPattern
-                },{
-                    data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
-                    borderColor: "#F8CCD0",
-                    fill: false,
-                },{
-                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
-                    borderColor: "#FFCD50",
-                    fill: false
-                },{
-                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
-                    borderColor: "#A7214B",
-                    fill: false
-                }]
+                datasets: listCourbes
             },
             options: {
                 legend: {display: false},
@@ -352,10 +369,7 @@ function onGenerateGraph() {
         });
 
     };
-
-
     console.log("dom ok")
-
 }
 
 
