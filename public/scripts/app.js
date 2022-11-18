@@ -1,22 +1,22 @@
 import Page from './class/Page.js'
 import Message from './class/Message.js'
 
-let page, messagepage2, messagepage5, messagepage7
+let page, messagepage2, messagepage5, messagepage9
 
 
 function init() {
-    console.log('init')
-    //document.querySelector('#page7 .next_button')?.classList.remove('hidden')
+
+    document.querySelector('#page9 .next_button').classList.remove('hidden')
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
-    //messagepage7 = new Message(1, document.querySelectorAll('#page7 div[class^=text]').length, 7);
+    messagepage9 = new Message(1, document.querySelectorAll('#page9 div[class^=text]').length, 9);
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if (e.target.value) page.changePage(e.target.value)
     })
 
-  document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
-      console.log(button)
+    document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
+        console.log(button)
         button.addEventListener("click", () => {
             page.goToNextPage();
         }, false)
@@ -36,18 +36,13 @@ function init() {
     document.querySelectorAll('#page3 .goToNextPage')?.forEach(soil => {
         soil.addEventListener("click", () => {
             getChosenSoil();
-           window.setTimeout(() => page.goToNextPage(), 5.9 * 1000);
+            window.setTimeout(() => page.goToNextPage(), 5.9 * 1000);
         }, false)
     })
-    
-    document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
-        messagepage2.goToNextMessage(page);
-    }, false)
 
     document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         messagepage5.goToNextMessage(page);
     }, false)
-
     getFlowersByDecade("1990")
     document.querySelectorAll(".year-btn")?.forEach((button) => {
         button.addEventListener("click", () => {
@@ -66,15 +61,17 @@ function init() {
         }
     })
 
-    // document.querySelector('#page7 .next_button')?.addEventListener("click", () => {
-    //     if (messagepage7.actualMessage === messagepage7.nbMessage - 1) {
-    //         document.querySelector('#page7 .next_button').classList.add('hidden')
-    //     }
-    //     messagepage7.goToNextMessage(page);
-    // }, false)
-    // document.querySelector('.goToPage-1')?.addEventListener("click", () => {
-    //     init()
-    // }, false)
+    document.querySelector('#page9 .next_button').addEventListener("click", () => {
+        if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
+            document.querySelector('#page9 .next_button').classList.add('hidden')
+        }
+        messagepage9.goToNextMessage(page);
+    }, false)
+
+    document.querySelector('.goToPage-1')?.addEventListener("click", () => {
+        init()
+    }, false)
+
 }
 
 function getFlowersByDecade(decade) {
@@ -154,7 +151,7 @@ window.getInvasiveFlowersByDecade = function (decade) {
                 img.style.top = top;
 
                 imgs.push(img);
-                document.querySelector('#page6').appendChild(img);
+                document.querySelector('#page7').appendChild(img);
 
                 function getPositionXY(element) {
                     var rect = element.getBoundingClientRect();
@@ -221,9 +218,9 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
     }
 })
 
-window.addEventListener('load',  () => {
+window.addEventListener('load', () => {
     includeHTML()
-    setTimeout( () => {
+    setTimeout(() => {
         init()
     }, 1000)
 })
