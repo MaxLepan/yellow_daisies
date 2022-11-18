@@ -12,37 +12,62 @@ function init() {
     document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if (e.target.value) page.changePage(e.target.value)
     })
-    document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
 
+  document.querySelectorAll('a.goToNextPage, button.goToNextPage')?.forEach((button) => {
         button.addEventListener("click", () => {
             page.goToNextPage();
         }, false)
     })
+
     document.querySelectorAll('a[class^=goToPage-], button[class^=goToPage-]').forEach((button) => {
-        const pageDirection = button.className[button.className.indexOf('goToPage-')+9]
+        const pageDirection = button.className[button.className.indexOf('goToPage-') + 9]
         button.addEventListener("click", () => {
             page.changePage(pageDirection);
         }, false)
     })
 
-    document.querySelector('#page2 .next_button').addEventListener("click", () => {
+    document.querySelector('#page2 .next_button')?.addEventListener("click", () => {
         messagepage2.goToNextMessage(page);
     }, false)
-    document.querySelectorAll('#page3 .goToNextPage').forEach(soil => {
+
+    document.querySelectorAll('#page3 .goToNextPage')?.forEach(soil => {
         soil.addEventListener("click", () => {
             getChosenSoil();
+           window.setTimeout(() => page.goToNextPage(), 5.9 * 1000);
         }, false)
     })
-    document.querySelector('#page5 .next_button').addEventListener("click", () => {
+    
+    document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
+        messagepage2.goToNextMessage(page);
+    }, false)
+
+    document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         messagepage5.goToNextMessage(page);
     }, false)
     document.querySelector('#page9 .next_button').addEventListener("click", () => {
         if(messagepage9.actualMessage === messagepage9.nbMessage-1){
             document.querySelector('#page9 .next_button').classList.add('hidden')
+    getFlowersByDecade("1990")
+    document.querySelectorAll(".year-btn")?.forEach((button) => {
+        button.addEventListener("click", () => {
+            getFlowersByDecade(button.value);
+        }, false)
+    })
+
+    window.invasiveButton = document.querySelector('#invasive-btn')
+    console.log(window.invasiveButton)
+    window.invasiveButton?.addEventListener("click", () => {
+        window.invasiveButton.classList.toggle('active')
+        if (window.invasiveButton.classList.contains('active')) {
+            getInvasiveFlowersByDecade(window.decade.toString())
+        } else {
+            clearBellis();
+        }
+    })
         }
         messagepage9.goToNextMessage(page);
     }, false)
-    document.querySelector('.goToPage-1').addEventListener("click", () => {
+    document.querySelector('.goToPage-1')?.addEventListener("click", () => {
         init()
     }, false)
 }
@@ -84,22 +109,20 @@ function clearBellis() {
     })
 }
 
-
-window.isInvasive = false;
+window.isInvasive = true;
 window.decade = 1990;
 
-
-window.invasiveClick = function (isInvasiveClick) {
-    getInvasiveFlowersByDecade(window.decade.toString(), isInvasiveClick)
+window.decadeClick = function (decade) {
+    window.decade = decade;
+    if (window.invasiveButton.classList.contains('active')) {
+        getInvasiveFlowersByDecade(decade);
+    }
 }
 
-window.decadeClick = function (decadeClick) {
-    getInvasiveFlowersByDecade(decadeClick, window.isInvasive)
+window.getInvasiveFlowersByDecade = function (decade) {
 
-}
-window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
-
-    window.isInvasive = isInvasive;
+    //window.isInvasive = isInvasive;
+    console.log(decade)
     window.decade = decade;
 
     const params = new URLSearchParams();
@@ -108,19 +131,15 @@ window.getInvasiveFlowersByDecade = function (decade, isInvasive) {
     axios.post('/getPercentageInvasiveFlowersPerDecade', params).then((res) => {
         clearBellis();
         for (const region in res.data) {
-
             document.querySelectorAll('#' + region).forEach(path => {
-
-                //A clean tard plu
 
                 let img = document.createElement('img');
 
 
-                if (isInvasive)
+                if (res.data[region] >= 50)
                     img.src = '/assets/img/invasive-icon.svg';
                 else
                     img.src = '/assets/img/non-invasive-icon.svg';
-
 
                 img.classList.add('img-invasive-add');
                 let left = `${parseInt(getPositionXY(path)[0])}px`;
@@ -159,8 +178,9 @@ function getChosenSoil() {
         })
     }
 }
+
 function generateBySoil(soil) {
-    switch(soil) {
+    switch (soil) {
         case 1 :
             soil = "automn";
             break;
@@ -175,8 +195,10 @@ function generateBySoil(soil) {
             break;
 
     }
-    console.log("pass")
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
+    document.querySelector("#page5 .flowerChoice").src = "../assets/img/flower_" + soil + ".svg";
+    document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
+
 }
 
 const params2 = new URLSearchParams();
