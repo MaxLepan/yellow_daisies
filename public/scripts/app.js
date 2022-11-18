@@ -36,7 +36,7 @@ function init() {
     document.querySelectorAll('#page3 .goToNextPage')?.forEach(soil => {
         soil.addEventListener("click", () => {
             getChosenSoil();
-            window.setTimeout(() => page.goToNextPage(), 5.9 * 1000);
+            window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
 
