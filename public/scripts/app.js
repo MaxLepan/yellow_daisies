@@ -44,11 +44,15 @@ function init() {
             window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
+    
     getSpeciesOccurencesByDecade();
     document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
             document.querySelector('#page5 .sb3').classList.add('hidden')
             document.querySelector('#page5 .blablaMouetteSearch').classList.remove('hidden')
+        }
+        if (messagepage5.actualMessage === messagepage5.nbMessage) {
+            window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
         }
         messagepage5.goToNextMessage(page);
     }, false)
@@ -341,7 +345,7 @@ function generateBySoil(soil) {
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
     document.querySelectorAll(".flowerChoice").forEach(flower => { flower.src = "../assets/img/flower_" + soil + ".svg"; })
     document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + soil + "_muraille" + ".svg";
-    document.querySelector("#page8 .mouette").src = "../assets/img/mouette_" + soil + ".svg";
+    document.querySelectorAll(".mouette").forEach(mouette => { mouette.src = "../assets/img/mouette_" + soil + ".svg"})
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
 
