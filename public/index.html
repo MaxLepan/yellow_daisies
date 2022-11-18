@@ -30,14 +30,37 @@
 
 <input type="text" id="changepagedebug" class="absolute top-0 left-0 z-30 border-2">
 <section id="page1" class="flex">
-    <div include-html="./pages/page1.html"></div>
+    <div class="bg-[url('../assets/img/bg_page1.png')] h-full bg-cover bg-no-repeat flex items-center justify-between flex-col">
+        <div class="flex justify-center">
+            <div class="items-center inline-flex align-center mt-16">
+                <img src="../assets/img/gobelins.png" width="49" height="49"/>
+                <img src="../assets/img/cci.png" width="40" height="40"/>
+            </div>
+        </div>
+        <div class="flex flex-col items-center">
+        <span class="justify-center text-center text-[#4F2F2F] text-9xl tracking-[0.03em]"
+              style=" text-shadow: #FFEEEE  -7px 11px;font-family:'Bubble Mint', sans-serif;">
+
+        Belli&nbsp;'s</span>
+            <span class="justify-center text-center text-9xl text-[#4F2F2F] tracking-[0.03em]"
+                  style="font-family:'Bubble Mint', sans-serif; text-shadow: #FFEEEE -7px 11px;">Land</span>
+            <a href="#"
+               class="goToNextPage flex items-center font-semibold justify-center px-20 mt-20 text-white text-2xl h-[72px] max-w-min rounded-[56px]"
+               style="background: linear-gradient(180deg, #CDDDA7 0%, #A2DAAF 100%);">Commencer</a>
+        </div>
+
+
+        <p class="text-white mb-10">Travail étudiant</p>
+        <div class="absolute bottom-[-5px] left-8">
+            <img src="assets/img/common_daisy.png" width="209" height="415" class="" />
+        </div>
+    </div>
 </section>
 <section id="page2" class="hidden">
     <div include-html="./pages/page2.html"></div>
 </section>
 <section id="page3" class="hidden">
     <div include-html="./pages/page3.html"></div>
-
 </section>
 <section id="page4" class="hidden">
     <div include-html="./pages/page4.html"></div>
@@ -52,9 +75,9 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="./scripts/includeHTML.js"></script>
 <script src="./scripts/app.js" type="module"></script>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="./scripts/includeHTML.js"></script>
 
 </body>
 </html>

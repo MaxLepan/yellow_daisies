@@ -5,16 +5,18 @@ let page, messagepage2, messagepage5, messagepage7
 
 
 function init() {
-    document.querySelector('#page7 .next_button')?.classList.remove('hidden')
+    console.log('init')
+    //document.querySelector('#page7 .next_button')?.classList.remove('hidden')
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
-    messagepage7 = new Message(1, document.querySelectorAll('#page7 div[class^=text]').length, 7);
-    document.querySelector('#changepagedebug')?.addEventListener('input', (e) => {
+    //messagepage7 = new Message(1, document.querySelectorAll('#page7 div[class^=text]').length, 7);
+    document.querySelector('#changepagedebug').addEventListener('input', (e) => {
         if (e.target.value) page.changePage(e.target.value)
     })
 
-  document.querySelectorAll('a.goToNextPage, button.goToNextPage')?.forEach((button) => {
+  document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
+      console.log(button)
         button.addEventListener("click", () => {
             page.goToNextPage();
         }, false)
@@ -55,24 +57,24 @@ function init() {
 
     window.invasiveButton = document.querySelector('#invasive-btn')
     console.log(window.invasiveButton)
-    window.invasiveButton?.addEventListener("click", () => {
-        window.invasiveButton.classList.toggle('active')
-        if (window.invasiveButton.classList.contains('active')) {
+    invasiveButton?.addEventListener("click", () => {
+        invasiveButton.classList.toggle('active')
+        if (invasiveButton.classList.contains('active')) {
             getInvasiveFlowersByDecade(window.decade.toString())
         } else {
             clearBellis();
         }
     })
 
-    document.querySelector('#page7 .next_button')?.addEventListener("click", () => {
-        if (messagepage7.actualMessage === messagepage7.nbMessage - 1) {
-            document.querySelector('#page7 .next_button').classList.add('hidden')
-        }
-        messagepage7.goToNextMessage(page);
-    }, false)
-    document.querySelector('.goToPage-1')?.addEventListener("click", () => {
-        init()
-    }, false)
+    // document.querySelector('#page7 .next_button')?.addEventListener("click", () => {
+    //     if (messagepage7.actualMessage === messagepage7.nbMessage - 1) {
+    //         document.querySelector('#page7 .next_button').classList.add('hidden')
+    //     }
+    //     messagepage7.goToNextMessage(page);
+    // }, false)
+    // document.querySelector('.goToPage-1')?.addEventListener("click", () => {
+    //     init()
+    // }, false)
 }
 
 function getFlowersByDecade(decade) {
@@ -117,7 +119,7 @@ window.decade = 1990;
 
 window.decadeClick = function (decade) {
     window.decade = decade;
-    if (window.invasiveButton.classList.contains('active')) {
+    if (invasiveButton.classList.contains('active')) {
         getInvasiveFlowersByDecade(decade);
     }
 }
@@ -125,7 +127,6 @@ window.decadeClick = function (decade) {
 window.getInvasiveFlowersByDecade = function (decade) {
 
     //window.isInvasive = isInvasive;
-    console.log(decade)
     window.decade = decade;
 
     const params = new URLSearchParams();
@@ -220,6 +221,9 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
     }
 })
 
-window.addEventListener('load', () => {
-    init()
+window.addEventListener('load',  () => {
+    includeHTML()
+    setTimeout( () => {
+        init()
+    }, 1000)
 })
