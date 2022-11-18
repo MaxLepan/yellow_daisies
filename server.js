@@ -44,11 +44,57 @@ app.post('/getSpeciesOccurrencesByDecade', (req, res) => {
     let decade = parseInt(req.body.decade);
     res.send(getSpeciesByDecade(filterByDecade(decade)));
 })
+app.post('/getSpeciesWithMostOccurent', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    let region = req.body.region;
+    switch(getSpeciesWithMostOccurent(parseBySpecies(filterByRegion(region, filterByDecade(decade))))){
+        case "Bellis sylvestris":
+            res.send({name:"automn"});
+        case "Erigeron jarvinskianus":
+            res.send({name:"muraille"});
+        case "Bellis annua":
+            res.send({name:"prairie"});
+        case "Bellis":
+            res.send({name:"pomponette"});
+    }
+    
+})
 
+function getSpeciesWithMostOccurent(obj){
+    let mostSpecies = ""
+    for(species in obj){
+        if(mostSpecies && obj[mostSpecies] < obj[species]){
+            mostSpecies = species
+        }
+    }
+    return mostSpecies
+}
+
+function parseBySpecies(oldArr = daisies){
+    let obj = {};
+    for (let i = 0, j = arr.length; i < j; i++) {
+        if (obj[arr[i].nomScientifiqueRef]) {
+            obj[arr[i].nomScientifiqueRef]++;
+        } else {
+            obj[arr[i].nomScientifiqueRef] = 1;
+        }
+    }
+    return obj;
+}
 function filterByDecade(decade, oldArr = daisies) {
     let arr = [];
     for (let i = 0, j = oldArr.length; i < j; i++) {
         if (oldArr[i].decennie === decade) {
+            arr.push(oldArr[i]);
+        }
+    }
+    return arr;
+}
+
+function filterByRegion(region, oldArr = daisies) {
+    let arr = [];
+    for (let i = 0, j = oldArr.length; i < j; i++) {
+        if (oldArr[i].region === region) {
             arr.push(oldArr[i]);
         }
     }

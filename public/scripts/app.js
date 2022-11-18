@@ -9,6 +9,8 @@ function init() {
     document.querySelector('#page5 .blablaMouetteSearch').classList.add('hidden')
     document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
     document.querySelector('#page9 .buttons').classList.remove('hidden')
+    document.querySelector('#page9 .flowerContainer').classList.remove('hidden')
+    document.querySelector('#page9 .flowersContainer').classList.add('hidden')
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
@@ -78,17 +80,19 @@ function init() {
         }
     })
 
-    document.querySelectorAll('#page9 .next_button').forEach(button=>{
+    document.querySelectorAll('#page9 .next_button').forEach(button => {
         button.addEventListener("click", () => {
-        if (messagepage9.actualMessage === 1) {
-            document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
-            document.querySelector('#page9 .buttons').classList.add('hidden')
-        }
-        if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
-            document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
-        }
-        messagepage9.goToNextMessage(page);
-    }, false)
+            if (messagepage9.actualMessage === 1) {
+                document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
+                document.querySelector('#page9 .buttons').classList.add('hidden')
+                document.querySelector('#page9 .flowerContainer').classList.add('hidden')
+                document.querySelector('#page9 .flowersContainer').classList.remove('hidden')
+            }
+            if (messagepage9.actualMessage === messagepage9.nbMessage - 1) {
+                document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
+            }
+            messagepage9.goToNextMessage(page);
+        }, false)
     })
 
     document.querySelector('.goToPage-1')?.addEventListener("click", () => {
@@ -255,26 +259,28 @@ function getChosenSoil() {
 function generateBySoil(soil) {
     let soilName
     switch (soil) {
-        case 1 :
+        case 1:
             soil = "automn";
             soilName = "la paquerette d'automne"
             break;
-        case 2 :
+        case 2:
             soil = "muraille";
             soilName = "la paquerette des mulailles"
             break;
-        case 3 :
+        case 3:
             soil = "prairie";
             soilName = "la paquerette des prairies"
             break;
-        case 4 :
+        case 4:
             soil = "pomponette";
             soilName = "la pomponette"
             break;
 
     }
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
-    document.querySelector("#page5 .flowerChoice").src = "../assets/img/flower_" + soil + ".svg";
+    document.querySelectorAll(".flowerChoice").forEach(flower => { flower.src = "../assets/img/flower_" + soil + ".svg"; })
+    document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + soil + "_muraille" + ".svg";
+    document.querySelector("#page8 .mouette").src = "../assets/img/mouette_" + soil + ".svg";
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
 }
@@ -306,38 +312,38 @@ axios.post('/getSpeciesOccurrencesByDecade', params2).then((res) => {
 function onGenerateGraph() {
     const img = new Image();
     img.src = '../assets/img/prairieChart.png';
-    img.onload = function() {
+    img.onload = function () {
         const ctx = document.getElementById('myChart').getContext('2d');
         const fillPattern = ctx.createPattern(img, 'repeat');
-        var xValues = [1990,2000,2010,2020];
+        var xValues = [1990, 2000, 2010, 2020];
         var myChart = new Chart("myChart", {
             type: "line",
-            borderColor:"#4F2F2F",
-            color:"#4F2F2F",
+            borderColor: "#4F2F2F",
+            color: "#4F2F2F",
             data: {
                 labels: xValues,
                 datasets: [{
-                    data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+                    data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
                     borderColor: "#EEAAFF",
                     fill: false,
                     pointRadius: 20,
-                    pointBackgroundColor:fillPattern
-                },{
-                    data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
+                    pointBackgroundColor: fillPattern
+                }, {
+                    data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
                     borderColor: "#F8CCD0",
                     fill: false,
-                },{
-                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
+                }, {
+                    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
                     borderColor: "#FFCD50",
                     fill: false
-                },{
-                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
+                }, {
+                    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
                     borderColor: "#A7214B",
                     fill: false
                 }]
             },
             options: {
-                legend: {display: false},
+                legend: { display: false },
                 events: ['click'],
                 animations: {
                     tension: {
