@@ -20,6 +20,7 @@ function init() {
     document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
         console.log(button)
         button.addEventListener("click", () => {
+            console.log("click",page.actualPage)
             page.goToNextPage();
         }, false)
     })
@@ -77,6 +78,16 @@ function init() {
             clearNonInvasiveBellis();
         }
     })
+    document.querySelectorAll(".regionC")?.forEach((button) => {
+        button.addEventListener("click", () => {
+            var idR=button.id;
+            console.log(idR)
+            onclickRegion(window.decade.toString(),idR);
+        }, false)
+    })
+    console.log(window.regionButton)
+    
+
 
     document.querySelectorAll('#page9 .next_button').forEach(button=>{
         button.addEventListener("click", () => {
@@ -121,6 +132,8 @@ function getFlowersByDecade(decade) {
     })
 }
 
+
+
 function bellisClick(event) {
     let region = event.target.dataset.region;
     console.log(region);
@@ -153,6 +166,40 @@ window.decadeClick = function (decade) {
         getNonInvasiveFlowersByDecade(decade);
     }
 }
+
+window.onclickRegion = function(decadeR,id){
+    //decter le click de la région
+    // afficher les infos de la région pour l'année cliquée
+    //btn je visite
+    var popup = document.getElementById("defaultModal");
+    popup.classList.remove("hidden");
+    popup.ariaHidden="false";
+    var nbFleur;
+    const params = new URLSearchParams();
+    params.append('decade', decadeR);
+    axios.post('/getNbFlowersPerDecade', params).then((res) => {
+        nbFleur=res.data[id];
+        var nomR = document.getElementById("nomRegionC");
+        nomR.innerText=id;
+
+        var nbrFleur = document.getElementById("nombrePaquerettes");
+        nbrFleur.innerHTML="<strong>Nombre de Pâquerette : </strong>"+nbFleur;
+        console.log(nbFleur)
+        var croix = document.getElementById("closeButton");
+        croix.addEventListener("click", () => {
+            popup.classList.add("hidden");
+            popup.ariaHidden="true";
+        }) 
+        console.log(decadeR);
+        //console.log(getFlowersByDecade(decadeR));
+
+        console.log(id);
+    })
+    
+    
+}
+
+
 
 window.getInvasiveFlowersByDecade = function (decade) {
 
@@ -294,71 +341,70 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
         })
     }
 })
-axios.post('/getSpeciesOccurrencesByDecade', params2).then((res) => {
-    let values = Object.values(res.data)
-    const max = Math.max(...values)
-    const min = Math.min(...values)
-    document.querySelectorAll("img").forEach((img) => {
+window.getNonInvasiveFlowersByDecade = function (decade) {
+    axios.post('/getSpeciesOccurrencesByDecade', params2).then((res) => {
+        let values = Object.values(res.data)
+        console.log(res.data);
 
     })
-})
 
-function onGenerateGraph() {
-    const img = new Image();
-    img.src = '../assets/img/prairieChart.png';
-    img.onload = function() {
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const fillPattern = ctx.createPattern(img, 'repeat');
-        var xValues = [1990,2000,2010,2020];
-        var myChart = new Chart("myChart", {
-            type: "line",
-            borderColor:"#4F2F2F",
-            color:"#4F2F2F",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
-                    borderColor: "#EEAAFF",
-                    fill: false,
-                    pointRadius: 20,
-                    pointBackgroundColor:fillPattern
-                },{
-                    data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
-                    borderColor: "#F8CCD0",
-                    fill: false,
-                },{
-                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
-                    borderColor: "#FFCD50",
-                    fill: false
-                },{
-                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
-                    borderColor: "#A7214B",
-                    fill: false
-                }]
-            },
-            options: {
-                legend: {display: false},
-                events: ['click'],
-                animations: {
-                    tension: {
-                        duration: 1000,
-                        easing: 'linear',
-                        from: 1,
-                        to: 0,
-                        loop: true
-                    }
+    function onGenerateGraph() {
+        const img = new Image();
+        img.src = '../assets/img/prairieChart.png';
+
+        img.onload = function () {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const fillPattern = ctx.createPattern(img, 'repeat');
+            var xValues = [1990, 2000, 2010, 2020];
+            var myChart = new Chart("myChart", {
+                type: "line",
+                borderColor: "#4F2F2F",
+                color: "#4F2F2F",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        data: data,
+                        borderColor: "#EEAAFF",
+                        fill: false,
+                        pointRadius: 20,
+                        pointBackgroundColor: fillPattern
+                    }, {
+                        data: data,
+                        borderColor: "#F8CCD0",
+                        fill: false,
+                    }, {
+                        data: data,
+                        borderColor: "#FFCD50",
+                        fill: false
+                    }, {
+                        data: data,
+                        borderColor: "#A7214B",
+                        fill: false
+                    }]
                 },
-            }
-        });
+                options: {
+                    legend: {display: false},
+                    events: ['click'],
+                    animations: {
+                        tension: {
+                            duration: 1000,
+                            easing: 'linear',
+                            from: 1,
+                            to: 0,
+                            loop: true
+                        }
+                    },
+                }
+            });
 
-    };
+        };
 
 
-    console.log("dom ok")
+        console.log("dom ok")
+
+    }
 
 }
-
-
 
 window.addEventListener('load', () => {
     includeHTML()

@@ -26,6 +26,13 @@ app.post('/getNbFlowersPerDecade', (req, res) => {
     res.send(parseByRegion(filterByDecade(decade)));
 });
 
+app.post('/getNbFlowersPerDecadePerRegion', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    let region=req.body.region
+    
+    res.send(parseByRegion(filterByDecade(decade)));
+});
+
 app.post('/getNbInvasiveFlowersPerDecade', (req, res) => {
     let decade = parseInt(req.body.decade);
     res.send(parseByRegion(filterByInvasive(true, filterByDecade(decade))));
@@ -44,6 +51,14 @@ app.post('/getSpeciesOccurrencesByDecade', (req, res) => {
     let decade = parseInt(req.body.decade);
     res.send(getSpeciesByDecade(filterByDecade(decade)));
 })
+
+function justeLeChiffre(decadeR,regionC){
+    let regionsC=[];
+    parseByRegion(filterByDecade(decadeR));
+    
+
+
+}
 
 function filterByDecade(decade, oldArr = daisies) {
     let arr = [];
