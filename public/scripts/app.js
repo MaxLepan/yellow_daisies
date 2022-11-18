@@ -42,7 +42,7 @@ function init() {
         messagepage2.goToNextMessage(page);
     }, false)
 
-    document.querySelector('#page5 .next_button').addEventListener("click", () => {
+    document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         messagepage5.goToNextMessage(page);
     }, false)
 
@@ -54,22 +54,23 @@ function init() {
     })
 
     window.invasiveButton = document.querySelector('#invasive-btn')
-    invasiveButton?.addEventListener("click", () => {
-        invasiveButton.classList.toggle('active')
-        if (invasiveButton.classList.contains('active')) {
+    console.log(window.invasiveButton)
+    window.invasiveButton?.addEventListener("click", () => {
+        window.invasiveButton.classList.toggle('active')
+        if (window.invasiveButton.classList.contains('active')) {
             getInvasiveFlowersByDecade(window.decade.toString())
         } else {
             clearBellis();
         }
     })
 
-    document.querySelector('#page7 .next_button').addEventListener("click", () => {
+    document.querySelector('#page7 .next_button')?.addEventListener("click", () => {
         if (messagepage7.actualMessage === messagepage7.nbMessage - 1) {
             document.querySelector('#page7 .next_button').classList.add('hidden')
         }
         messagepage7.goToNextMessage(page);
     }, false)
-    document.querySelector('.goToPage-1').addEventListener("click", () => {
+    document.querySelector('.goToPage-1')?.addEventListener("click", () => {
         init()
     }, false)
 }
@@ -116,7 +117,7 @@ window.decade = 1990;
 
 window.decadeClick = function (decade) {
     window.decade = decade;
-    if (invasiveButton.classList.contains('active')) {
+    if (window.invasiveButton.classList.contains('active')) {
         getInvasiveFlowersByDecade(decade);
     }
 }
