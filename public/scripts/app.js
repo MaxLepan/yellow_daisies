@@ -64,8 +64,10 @@ function init() {
     invasiveButton?.addEventListener("click", () => {
         invasiveButton.classList.toggle('active')
         if (invasiveButton.classList.contains('active')) {
+            invasiveButton.querySelector('img').src = '/assets/img/invasive-filter-on.svg'
             getInvasiveFlowersByDecade(window.decade.toString())
         } else {
+            invasiveButton.querySelector('img').src = '/assets/img/invasive-filter-off.svg'
             clearInvasiveBellis();
         }
     })
@@ -75,8 +77,10 @@ function init() {
     nonInvasiveButton?.addEventListener("click", () => {
         nonInvasiveButton.classList.toggle('active')
         if (nonInvasiveButton.classList.contains('active')) {
+            nonInvasiveButton.querySelector('img').src = '/assets/img/non-invasive-filter-on.svg'
             getNonInvasiveFlowersByDecade(window.decade.toString())
         } else {
+            nonInvasiveButton.querySelector('img').src = '/assets/img/non-invasive-filter-off.svg'
             clearNonInvasiveBellis();
         }
     })
@@ -312,7 +316,7 @@ function generateBySoil(soil) {
             break;
         case 2:
             soil = "muraille";
-            soilName = "la paquerette des mulailles"
+            soilName = "la paquerette des murailles"
             species = "Erigeron karvinskianus"
             break;
         case 3:
@@ -445,6 +449,7 @@ function onGenerateGraph(listCourbes) {
     });
     console.log("dom ok")
 }
+
 
 
 window.addEventListener('load', () => {
