@@ -446,6 +446,7 @@ function onGenerateGraph(listCourbes) {
 }
 
 
+
 window.addEventListener('load', () => {
     includeHTML()
     setTimeout(() => {
