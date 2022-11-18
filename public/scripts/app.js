@@ -64,8 +64,11 @@ function init() {
     invasiveButton?.addEventListener("click", () => {
         invasiveButton.classList.toggle('active')
         if (invasiveButton.classList.contains('active')) {
+            invasiveButton.querySelector('img').src = '/assets/img/invasive-filter-on.svg'
             getInvasiveFlowersByDecade(window.decade.toString())
         } else {
+            invasiveButton.querySelector('img').src = '/assets/img/invasive-filter-off.svg'
+            invasiveButton.querySelector('img').style.filter = 'greyscale(100%)'
             clearInvasiveBellis();
         }
     })
@@ -75,8 +78,10 @@ function init() {
     nonInvasiveButton?.addEventListener("click", () => {
         nonInvasiveButton.classList.toggle('active')
         if (nonInvasiveButton.classList.contains('active')) {
+            nonInvasiveButton.querySelector('img').src = '/assets/img/non-invasive-filter-on.svg'
             getNonInvasiveFlowersByDecade(window.decade.toString())
         } else {
+            nonInvasiveButton.querySelector('img').src = '/assets/img/non-invasive-filter-off.svg'
             clearNonInvasiveBellis();
         }
     })

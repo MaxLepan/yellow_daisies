@@ -1,7 +1,35 @@
 <h1>PAGE 7</h1>
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 p-4 w-full md:inset-0 h-modal md:h-full">
-    
-
+        <div class="mr-8 flex flex-col justify-evenly">
+            <div class="invasive-filter inline-block">
+                <h3 class="text-[24px] bubble-mint">Invasive ou non ?</h3>
+                <p class="text-[16px] ml-4 mt-6 fredoka">Invasive</p>
+                <button value="invasive"
+                        class="inline-block ml-4 w-[142px] h-[80px]"
+                        id="invasive-btn">
+                    <img src="/assets/img/invasive-filter-off.svg">
+                </button>
+                <p class="text-[16px] ml-4 mt-8 fredoka">Non invasive</p>
+                <button value="non-invasive"
+                        class="inline-block ml-4 w-[142px] h-[80px]"
+                        id="non-invasive-btn">
+                    <img src="/assets/img/non-invasive-filter-off.svg">
+                </button>
+            </div>
+            <div id="legend" class="flex flex-col">
+                <h3 class="text-[24px] bubble-mint">Nombre de pâquerettes</h3>
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-col">
+                        <p class="fredoka">Pas du tout</p>
+                        <div class="w-[81px] h-[23px] bg-[#D9D9D9] rounded-lg"></div>
+                    </div>
+                    <div class="flex flex-col ml-8">
+                        <div class="flex flex-row justify-between">
+                            <p class="fredoka">Un peu</p>
+                            <p class="fredoka">Beaucoup</p>
+                        </div>
+                        <div class="w-[154px] h-[23px] gradient-legend rounded-lg"></div>
+                    </div>
   
       <div class="relative w-full max-w-md h-full md:h-auto">
           <div class="relative bg-white rounded-[32px] drop-shadow-xl dark:bg-gray-700">
@@ -17,6 +45,7 @@
                   <a href="#"
         class="goToNextPage flex items-center font-semibold justify-center px-20 mt-20 text-white text-2xl h-[72px] max-w-min rounded-[56px]"
         style="background: linear-gradient(180deg, #CDDDA7 0%, #A2DAAF 100%);font-family: 'Fredoka', sans-serif;">Je visite</a>
+
                 </div>
           </div>
       </div>
