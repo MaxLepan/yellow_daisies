@@ -26,6 +26,13 @@ app.post('/getNbFlowersPerDecade', (req, res) => {
     res.send(parseByRegion(filterByDecade(decade)));
 });
 
+app.post('/getNbFlowersPerDecadePerRegion', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    let region=req.body.region
+    
+    res.send(parseByRegion(filterByDecade(decade)));
+});
+
 app.post('/getNbInvasiveFlowersPerDecade', (req, res) => {
     let decade = parseInt(req.body.decade);
     res.send(parseByRegion(filterByInvasive(true, filterByDecade(decade))));
@@ -44,11 +51,64 @@ app.post('/getSpeciesOccurrencesByDecade', (req, res) => {
     let decade = parseInt(req.body.decade);
     res.send(getSpeciesByDecade(filterByDecade(decade)));
 })
+app.post('/getSpeciesWithMostOccurent', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    let region = req.body.region;
+    switch(getSpeciesWithMostOccurent(parseBySpecies(filterByRegion(region, filterByDecade(decade))))){
+        case "Bellis sylvestris":
+            res.send({name:"automn"});
+        case "Erigeron jarvinskianus":
+            res.send({name:"muraille"});
+        case "Bellis annua":
+            res.send({name:"prairie"});
+        case "Bellis":
+            res.send({name:"pomponette"});
+    }
+    
+})
+app.post('/getSpeciesOccurrencesBySpecies', (req, res) => {
+    let decade = parseInt(req.body.decade);
+    let species = req.body.species;
+    let region = req.body.region;
+    console.log(parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region])
+    res.send({nb:parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region]||0});
+})
 
+function getSpeciesWithMostOccurent(obj){
+    let mostSpecies = ""
+    for(species in obj){
+        if(mostSpecies && obj[mostSpecies] < obj[species]){
+            mostSpecies = species
+        }
+    }
+    return mostSpecies
+}
+
+function parseBySpecies(oldArr = daisies){
+    let obj = {};
+    for (let i = 0, j = arr.length; i < j; i++) {
+        if (obj[arr[i].nomScientifiqueRef]) {
+            obj[arr[i].nomScientifiqueRef]++;
+        } else {
+            obj[arr[i].nomScientifiqueRef] = 1;
+        }
+    }
+    return obj;
+}
 function filterByDecade(decade, oldArr = daisies) {
     let arr = [];
     for (let i = 0, j = oldArr.length; i < j; i++) {
         if (oldArr[i].decennie === decade) {
+            arr.push(oldArr[i]);
+        }
+    }
+    return arr;
+}
+
+function filterByRegion(region, oldArr = daisies) {
+    let arr = [];
+    for (let i = 0, j = oldArr.length; i < j; i++) {
+        if (oldArr[i].region === region) {
             arr.push(oldArr[i]);
         }
     }
@@ -76,6 +136,15 @@ function filterByInvasive(isInvasive, oldArr = daisies) {
         if (isInvasive && oldArr[i].nomScientifiqueRef === "Erigeron karvinskianus") {
             arr.push(oldArr[i]);
         } else if (!isInvasive && oldArr[i].nomScientifiqueRef !== "Erigeron karvinskianus") {
+            arr.push(oldArr[i]);
+        }
+    }
+    return arr;
+}
+function filterBySpecies(species, oldArr = daisies) {
+    let arr = [];
+    for (let i = 0, j = oldArr.length; i < j; i++) {
+        if (oldArr[i].nomScientifiqueRef === species) {
             arr.push(oldArr[i]);
         }
     }
