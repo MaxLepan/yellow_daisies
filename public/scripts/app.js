@@ -377,7 +377,7 @@ function generateBySoil(soil) {
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
     document.querySelectorAll(".flowerChoice").forEach(flower => { flower.src = "../assets/img/flower_" + soil + ".svg"; })
     document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + soil + "_muraille" + ".svg";
-    document.querySelectorAll(".mouette").forEach(mouette => { mouette.src = "../assets/img/mouette_" + soil + ".svg" })
+    document.querySelectorAll(".mouette").forEach(mouette => { mouette.src = "../assets/img/mouette_" + soil + ".gif" })
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
     window.actualSoil = soil
@@ -414,7 +414,6 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
         document.querySelectorAll('#_' + i).forEach(path => {
             path.style.fill = nbPetals < i ? "#000" : "#ededed";
             path.style.opacity = "0.8";
-
         })
     }
 })
@@ -507,5 +506,5 @@ window.addEventListener('load', () => {
     includeHTML()
     setTimeout(() => {
         init()
-    }, 1000)
+    }, 3000)
 })
