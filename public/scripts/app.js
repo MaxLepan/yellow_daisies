@@ -15,9 +15,6 @@ function init() {
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
     messagepage9 = new Message(1, document.querySelectorAll('#page9 div[class^=text]').length, 9);
-    document.querySelector('#changepagedebug').addEventListener('input', (e) => {
-        if (e.target.value) page.changePage(e.target.value)
-    })
 
     document.querySelectorAll('a.goToNextPage, button.goToNextPage').forEach((button) => {
         console.log(button)
@@ -131,6 +128,7 @@ function init() {
     })
 
     document.querySelector('.goToPage-1')?.addEventListener("click", () => {
+        location.reload();
         init()
     }, false)
 
@@ -521,6 +519,7 @@ function onCreateGraph(listCourbes) {
 window.addEventListener('load', () => {
     includeHTML()
     setTimeout(() => {
+        document.querySelector('#onLoader').classList.add('hidden');
         init()
     }, 3000)
 })
