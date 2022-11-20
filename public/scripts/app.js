@@ -69,7 +69,7 @@ function init() {
 
     let i = 0;
     const txt = 'Voyager en France'; /* The text */
-    const speed =50; /* The speed/duration of the effect in milliseconds */
+    const speed = 50; /* The speed/duration of the effect in milliseconds */
 
     function typeWriter() {
         if (i < txt.length) {
@@ -211,7 +211,7 @@ function onclickRegion(decadeR, id) {
     axios.post('/getNbFlowersPerDecadePerRegion', params).then((res) => {
         console.log("after /getNbFlowersPerDecadePerRegion")
         nbFleur = res.data.nb;
-        console.log("nbFleur => ",nbFleur)
+        console.log("nbFleur => ", nbFleur)
         const params3 = new URLSearchParams();
         params3.append('decade', decadeR);
         params3.append('region', id);
@@ -392,9 +392,8 @@ function generateBySoil(soil) {
     document.querySelectorAll(".flowerChoice").forEach(flower => {
         flower.src = "../assets/img/flower_" + soil + ".svg";
     })
-    document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + soil + "_muraille" + ".svg";
     document.querySelectorAll(".mouette").forEach(mouette => { mouette.src = "../assets/img/mouette_" + soil + ".gif" })
-    document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
+    document.querySelectorAll(".imageFlowerChoice").forEach(photo => { photo.src = "../assets/img/photo_" + soil + ".svg" });
     document.querySelector('.nameFlower').innerHTML = soilName
     window.actualSoil = soil
     window.species = species;
@@ -403,19 +402,42 @@ function generateBySoil(soil) {
 function generateByRegion(region, nbFlower, mostSpecies, decade) {
 
     // page 7 popup
-    document.getElementById("nomPaquerette").innerText = mostSpecies.soilName
-    document.getElementById("nomPaqueretteS").innerText = mostSpecies.species
-    document.getElementById("sol").innerHTML = "<strong>Type de sol : </strong>" + mostSpecies.soil
+    document.getElementById("decadeRegionSelected").innerText = decade
+    document.getElementById("nombrePaquerettes").innerHTML = "<strong>Nombre de Pâquerette : </strong>" + nbFlower
     document.getElementById("nomRegionC").innerText = region
-    document.getElementById("nombrePaquerettes").innerHTML = "<strong>Nombre de Pâquerette en " + decade + " : </strong>" + nbFlower
+    if (nbFlower > 0) {
+        document.querySelector(".imageFlowerRegion").classList.remove("hidden")
+        document.getElementById("nomPaquerette").classList.remove("hidden")
+        document.getElementById("nomPaqueretteS").classList.remove("hidden")
+        document.getElementById("sol").classList.remove("hidden")
+        document.querySelector(".imageFlowerRegion").src = "../assets/img/photo_" + mostSpecies.flowerValue + ".svg";
+        document.getElementById("nomPaquerette").innerText = mostSpecies.soilName
+        document.getElementById("nomPaqueretteS").innerText = mostSpecies.species
+        document.getElementById("sol").innerHTML = "<strong>Type de sol : </strong>" + mostSpecies.soil
+    }else{
+        document.querySelector(".imageFlowerRegion").classList.add("hidden")
+        document.getElementById("nomPaquerette").classList.add("hidden")
+        document.getElementById("nomPaqueretteS").classList.add("hidden")
+        document.getElementById("sol").classList.add("hidden")
+    }
+
 
     // page 8
     document.getElementById("goInRegion").innerHTML = "Allons en région <strong>" + region + "</strong>"
-    document.getElementById("descRegion").innerHTML = "Dans cette région, la pâquerette numéro 1 est la <strong>" + mostSpecies.species + "</strong>.<br />Tu pourras trouver beaucoup de " + mostSpecies.soils + " où t’implanter."
+    if (nbFlower > 0) {
+        document.getElementById("descRegion").classList.remove("hidden")
+        document.getElementById("descRegion").innerHTML = "Dans cette région, la pâquerette numéro 1 est la <strong>" + mostSpecies.species + "</strong>.<br />Tu pourras trouver beaucoup de " + mostSpecies.soils + " où t’implanter."
+    }else{
+        document.getElementById("descRegion").classList.add("hidden")
+    }
 
     // page 9
     document.getElementById("titleGraph").innerHTML = "Découvres les différentes pâquerettes<br />en <strong>" + region + "</strong>"
-    document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + window.actualSoil + "_" + mostSpecies.flowerValue + ".svg";
+    if (nbFlower > 0) {
+        document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + window.actualSoil + "_" + mostSpecies.flowerValue + ".svg";
+    }else{
+        document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/flower_" + window.actualSoil + ".svg";
+    }
     onGenerateGraphData(region)
     window.region = region;
 }
@@ -462,7 +484,7 @@ async function onGenerateGraphData(region) {
 
     const listSpecies = ["Erigeron karvinskianus", "Bellis annua", "Bellis", "Bellis sylvestris"];
     let i = 0
-    for(const speciesName of listSpecies) {
+    for (const speciesName of listSpecies) {
         i = parseInt(i)
         listCourbes[i].data = [];
         for (let j = 0; j < 4; j++) {
@@ -477,8 +499,8 @@ async function onGenerateGraphData(region) {
                     value = parseInt(Math.round(Math.sqrt(parseInt(res.data.nb))));
                 }
                 console.log("Value => ", value)
-                
-                if (parseInt(i)-1 >= 0) {
+
+                if (parseInt(i) - 1 >= 0) {
                     console.log("I => ", parseInt(listCourbes[i - 1].data[j]))
                     value += parseInt(listCourbes[i - 1].data[j])
                     console.log("Value + i => ", value)
