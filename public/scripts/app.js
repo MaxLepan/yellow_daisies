@@ -44,10 +44,9 @@ function init() {
             window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
-    getSpeciesOccurencesByDecade();
     document.querySelector('#page7 .goToNextPage').addEventListener("click", () => {
 
-    }, false)
+    }, false);
     document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
             document.querySelector('#page5 .sb3').classList.add('hidden')
