@@ -44,6 +44,7 @@ function init() {
             window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
+    getSpeciesOccurencesByDecade();
     document.querySelector('#page7 .goToNextPage').addEventListener("click", () => {
 
     }, false)
@@ -51,8 +52,10 @@ function init() {
         if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
             document.querySelector('#page5 .sb3').classList.add('hidden')
             document.querySelector('#page5 .blablaMouetteSearch').classList.remove('hidden')
+            typeWriter();
         }
         if (messagepage5.actualMessage === messagepage5.nbMessage) {
+
             window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
         }
         messagepage5.goToNextMessage(page);
@@ -63,6 +66,20 @@ function init() {
             getFlowersByDecade(button.value);
         }, false)
     })
+
+    let i = 0;
+    const txt = 'Voyager en France'; /* The text */
+    const speed =50; /* The speed/duration of the effect in milliseconds */
+
+    function typeWriter() {
+        if (i < txt.length) {
+            document.getElementById("typingEffect").innerHTML += txt.charAt(i);
+            console.log(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+
 
     window.invasiveButton = document.querySelector('#invasive-btn')
     console.log(window.invasiveButton)
@@ -97,7 +114,6 @@ function init() {
         }, false)
     })
     console.log(window.regionButton)
-
 
 
     document.querySelectorAll('#page9 .next_button').forEach(button => {
@@ -144,7 +160,6 @@ function getFlowersByDecade(decade) {
         }
     })
 }
-
 
 
 function bellisClick(event) {
@@ -236,6 +251,7 @@ function onclickRegion(decadeR, id) {
                     species = "Bellis";
                     break;
             }
+
             console.log(nbFleur)
             var croix = document.getElementById("closeButton");
             croix.addEventListener("click", () => {
@@ -248,9 +264,6 @@ function onclickRegion(decadeR, id) {
         })
     })
 }
-
-
-
 window.getInvasiveFlowersByDecade = function (decade) {
 
     //window.isInvasive = isInvasive;
@@ -375,8 +388,11 @@ function generateBySoil(soil) {
 
     }
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
-    document.querySelectorAll(".flowerChoice").forEach(flower => { flower.src = "../assets/img/flower_" + soil + ".svg"; })
+    document.querySelectorAll(".flowerChoice").forEach(flower => {
+        flower.src = "../assets/img/flower_" + soil + ".svg";
+    })
     document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + soil + "_muraille" + ".svg";
+
     document.querySelectorAll(".mouette").forEach(mouette => { mouette.src = "../assets/img/mouette_" + soil + ".svg" })
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
@@ -454,6 +470,7 @@ async function onGenerateGraphData(region) {
             let params = new URLSearchParams();
             params.append('decade', (1990 + j * 10) + "");
             params.append('species', speciesName);
+
             params.append('region', region || "Occitanie");
             await axios.post('/getSpeciesOccurrencesBySpecies', params).then((res) => {
                 let value = 0
@@ -467,11 +484,11 @@ async function onGenerateGraphData(region) {
                     value += parseInt(listCourbes[i - 1].data[j])
                     console.log("Value + i => ", value)
                 }
-                
                 listCourbes[i].data.push(value);
 
             })
         }
+
         console.log(listCourbes[i].data);
         i++
     }
@@ -488,6 +505,7 @@ function onCreateGraph(listCourbes) {
             datasets: listCourbes
         },
         options: {
+
             legend: { display: false },
             scales: {
                 yAxis: {
