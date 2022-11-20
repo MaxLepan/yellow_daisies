@@ -409,11 +409,11 @@ function generateByRegion(region, nbFlower, mostSpecies) {
     document.getElementById("nombrePaquerettes").innerHTML = "<strong>Nombre de Pâquerette : </strong>" + nbFlower
 
     // page 8
-    document.getElementById("goInRegion").innerText = "Allons en région " + region
-    document.getElementById("descRegion").innerHTML = "Dans ette région, la pâquerette numéro 1 est la " + mostSpecies.species + ".<br />Tu pourras trouver beaucoup de " + mostSpecies.soils + " où t’implanter."
+    document.getElementById("goInRegion").innerHTML = "Allons en région <strong>" + region + "</strong>"
+    document.getElementById("descRegion").innerHTML = "Dans ette région, la pâquerette numéro 1 est la <strong>" + mostSpecies.species + "</strong>.<br />Tu pourras trouver beaucoup de " + mostSpecies.soils + " où t’implanter."
 
     // page 9
-    document.getElementById("titleGraph").innerHTML = "Découvres les différentes pâquerettes<br />en " + region
+    document.getElementById("titleGraph").innerHTML = "Découvres les différentes pâquerettes<br />en <strong>" + region + "</strong>"
     document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + window.actualSoil + "_" + mostSpecies.flowerValue + ".svg";
     onGenerateGraphData(region)
     window.region = region;
