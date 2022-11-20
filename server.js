@@ -60,7 +60,7 @@ app.post('/getSpeciesWithMostOccurent', (req, res) => {
             console.log("automn")
             res.send({name:"automn"});
             break;
-        case "Erigeron jarvinskianus":
+        case "Erigeron karvinskianus":
             console.log("muraille")
             res.send({name:"muraille"});
             break;
@@ -81,7 +81,7 @@ app.post('/getSpeciesOccurrencesBySpecies', (req, res) => {
     let decade = parseInt(req.body.decade);
     let species = req.body.species;
     let region = req.body.region;
-    console.log(parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region])
+    console.log("nbFlowers" + ( parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region] || 0))
     res.send({nb:parseByRegion(filterBySpecies(species, filterByDecade(decade)))[region]||0});
 })
 
@@ -112,7 +112,7 @@ function parseBySpecies(arr = daisies){
 function filterByDecade(decade, oldArr = daisies) {
     let arr = [];
     for (let i = 0, j = oldArr.length; i < j; i++) {
-        if (oldArr[i].decennie === decade) {
+        if (oldArr[i].annee >= decade-5 && oldArr[i].annee < decade+5) {
             arr.push(oldArr[i]);
         }
     }
