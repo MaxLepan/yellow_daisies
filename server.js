@@ -169,11 +169,11 @@ function filterBySpecies(species, oldArr = daisies) {
 
 function percentageInvasive(decade) {
     let flowers = parseByRegion(filterByDecade(decade));
-    let nonInvasive = parseByRegion(filterByInvasive(false, filterByDecade(decade)));
+    let invasive = parseByRegion(filterByInvasive(true, filterByDecade(decade)));
     let percentByRegion = {}
     for (const regionName in flowers) {
-        if (nonInvasive[regionName]) {
-            percentByRegion[regionName] = nonInvasive[regionName]/flowers[regionName]*100
+        if (invasive[regionName]) {
+            percentByRegion[regionName] = invasive[regionName]/flowers[regionName]*100
         } else {
             percentByRegion[regionName] = 0;
         }
