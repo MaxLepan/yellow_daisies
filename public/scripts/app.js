@@ -523,6 +523,7 @@ function onCreateGraph(listCourbes) {
 window.addEventListener('load', () => {
     includeHTML()
     setTimeout(() => {
+        document.querySelector("#onLoader").classList.add('hidden');
         init()
-    }, 1000)
+    }, 3000)
 })
