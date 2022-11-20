@@ -49,6 +49,7 @@ function init() {
             document.querySelector('#page5 .sb3').classList.add('hidden')
             document.querySelector('#page5 .blablaMouetteSearch').classList.remove('hidden')
             typeWriter();
+            window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
         }
         if (messagepage5.actualMessage === messagepage5.nbMessage) {
 
