@@ -56,6 +56,9 @@ function init() {
         }
         messagepage5.goToNextMessage(page);
     }, false)
+    document.querySelector('#page5 .goToNextPage')?.addEventListener("click", () => {
+        window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
+    }, false)
     getFlowersByDecade("1990")
     document.querySelectorAll(".year-btn")?.forEach((button) => {
         button.addEventListener("click", () => {
