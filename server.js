@@ -30,7 +30,7 @@ app.post('/getNbFlowersPerDecadePerRegion', (req, res) => {
     let decade = parseInt(req.body.decade);
     let region=req.body.region
     
-    res.send(parseByRegion(filterByDecade(decade)));
+    res.send({nb:parseByRegion(filterByDecade(decade))[region]||0});
 });
 
 app.post('/getNbInvasiveFlowersPerDecade', (req, res) => {
@@ -73,6 +73,8 @@ app.post('/getSpeciesWithMostOccurent', (req, res) => {
             res.send({name:"pomponette"});
             break;
         default:
+            console.log("no plante")
+            res.send({name:""});
             break;
     }
     

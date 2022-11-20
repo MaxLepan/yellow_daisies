@@ -148,7 +148,6 @@ body>section {
   justify-content: center;
   top: 0;
   left: 0;
-  border: solid 2px black;
 }
 
 body>section>div {
@@ -165,7 +164,7 @@ body>section>div {
   color: white;
 }
 
-.year-btn:focus, .year-btn:active {
+.focus-button {
   background: linear-gradient(180deg, rgba(89, 54, 54, 0.56) 0%, #593636 100%);
 }
 
@@ -203,7 +202,7 @@ body>section>div {
   margin: 8px;
   border-radius: 50%;
   background: #fdfdfd;
-  animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  animation: lds-circle 4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 @keyframes lds-circle {
   0%, 100% {
@@ -217,7 +216,7 @@ body>section>div {
     animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
   }
   100% {
-    transform: rotateY(3600deg);
+    transform: rotateY(2880deg);
   }
 }
 

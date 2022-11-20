@@ -49,10 +49,8 @@ function init() {
             document.querySelector('#page5 .sb3').classList.add('hidden')
             document.querySelector('#page5 .blablaMouetteSearch').classList.remove('hidden')
             typeWriter();
-            window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
         }
         if (messagepage5.actualMessage === messagepage5.nbMessage) {
-
             window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
         }
         messagepage5.goToNextMessage(page);
@@ -60,9 +58,11 @@ function init() {
     document.querySelector('#page5 .goToNextPage')?.addEventListener("click", () => {
         window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
     }, false)
-    getFlowersByDecade("1990")
+    getFlowersByDecade(window.decade.toString())
     document.querySelectorAll(".year-btn")?.forEach((button) => {
         button.addEventListener("click", () => {
+            document.querySelector(".focus-button").classList.remove('focus-button')
+            button.classList.add('focus-button')
             getFlowersByDecade(button.value);
         }, false)
     })
@@ -113,7 +113,6 @@ function init() {
             onclickRegion(window.decade.toString(), idR);
         }, false)
     })
-    console.log(window.regionButton)
 
 
     document.querySelectorAll('#page9 .next_button').forEach(button => {
@@ -207,11 +206,12 @@ function onclickRegion(decadeR, id) {
     var nbFleur;
     const params = new URLSearchParams();
     params.append('decade', decadeR);
-    console.log("before /getNbFlowersPerDecade")
-    axios.post('/getNbFlowersPerDecade', params).then((res) => {
-        console.log("after /getNbFlowersPerDecade")
-        nbFleur = res.data[id];
-
+    params.append('region', id);
+    console.log("before /getNbFlowersPerDecadePerRegion")
+    axios.post('/getNbFlowersPerDecadePerRegion', params).then((res) => {
+        console.log("after /getNbFlowersPerDecadePerRegion")
+        nbFleur = res.data.nb;
+        console.log("nbFleur => ",nbFleur)
         const params3 = new URLSearchParams();
         params3.append('decade', decadeR);
         params3.append('region', id);
@@ -400,18 +400,18 @@ function generateBySoil(soil) {
     window.species = species;
 }
 
-function generateByRegion(region, nbFlower, mostSpecies) {
+function generateByRegion(region, nbFlower, mostSpecies, decade) {
 
     // page 7 popup
     document.getElementById("nomPaquerette").innerText = mostSpecies.soilName
     document.getElementById("nomPaqueretteS").innerText = mostSpecies.species
     document.getElementById("sol").innerHTML = "<strong>Type de sol : </strong>" + mostSpecies.soil
     document.getElementById("nomRegionC").innerText = region
-    document.getElementById("nombrePaquerettes").innerHTML = "<strong>Nombre de Pâquerette : </strong>" + nbFlower
+    document.getElementById("nombrePaquerettes").innerHTML = "<strong>Nombre de Pâquerette en " + decade + " : </strong>" + nbFlower
 
     // page 8
     document.getElementById("goInRegion").innerHTML = "Allons en région <strong>" + region + "</strong>"
-    document.getElementById("descRegion").innerHTML = "Dans ette région, la pâquerette numéro 1 est la <strong>" + mostSpecies.species + "</strong>.<br />Tu pourras trouver beaucoup de " + mostSpecies.soils + " où t’implanter."
+    document.getElementById("descRegion").innerHTML = "Dans cette région, la pâquerette numéro 1 est la <strong>" + mostSpecies.species + "</strong>.<br />Tu pourras trouver beaucoup de " + mostSpecies.soils + " où t’implanter."
 
     // page 9
     document.getElementById("titleGraph").innerHTML = "Découvres les différentes pâquerettes<br />en <strong>" + region + "</strong>"
