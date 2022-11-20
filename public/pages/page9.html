@@ -3,11 +3,43 @@
     <div class="sb3 h-[500px] w-[870px] py-14 px-16 mb-32 ml-56 bg-white text-[#5ABA97] text-2xl rounded-[83px] rounded-bl-none flex flex-row items-center"
         style="font-family: 'Fredoka', sans-serif; filter: drop-shadow(1px 1px 10px rgba(79, 47, 47, 0.2));">
         <div class="text1 flex h-full w-full flex-col items-center">
-            <p class="text-4xl font-medium text-center" style="font-family: 'Bubble Mint', sans-serif">Découvres les
-                différentes pâquerettes<br />en Auvergne-Rhône-Alpes
+            <p id="titleGraph" class="text-4xl font-medium text-center mb-10" style="font-family: 'Bubble Mint', sans-serif">
             </p>
-
-                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+            <div class="flex flex-row w-full justify-center">
+                    <canvas id="myChart" class="max-w-[500px] max-h-[300px]"></canvas>
+                
+                <div class="flex flex-col leading-6 ml-6 mb-2 text-[#593636] justify-between">
+                    <div class="flex flex-row">
+                        <img src="../assets/img/legende_muraille.svg">
+                        <div class="flex flex-col ml-4">
+                            <p class="_p2">Cailloux</p>
+                            <p class="font-medium _p3">Invasive</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+                        <img src="../assets/img/legende_prairie.svg">
+                        <div class="flex flex-col ml-4">
+                            <p class="_p2">Prairie</p>
+                            <p class="font-medium _p3">Non invasive</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+                        <img src="../assets/img/legende_pomponette.svg">
+                        <div class="flex flex-col ml-4">
+                            <p class="_p2">jardin</p>
+                            <p class="font-medium _p3">Non invasive</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+                        <img src="../assets/img/legende_automn.svg">
+                        <div class="flex flex-col ml-4">
+                            <p class="_p2">Forêt</p>
+                            <p class="font-medium _p3">Non invasive</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
 
         </div>
         <div class="text2 flex h-full w-full flex-row py-4">
@@ -51,10 +83,10 @@
         <img src="" class="h-[300px]" />
     </div>
     <div class="buttons flex justify-between items-center w-[670px] absolute bottom-28 right-32">
-        <button class="hidden  goToPage-7 p-1"><div class="items-center rounded-full align-center flex bg-white text-[#5ABA97]"><img src="../assets/img/arrow_back.svg"
-                class="hidden mr-4"><p>Retournes à la carte</p></div></button>
-        <button class="hidden next_button relative bottom-0 left-0 items-center align-center flex">Je continue <img src="../assets/img/arrow_message.svg"
-                class="hidden ml-4"></button>
+        <button class="goToPage-7 p-1"><div class="items-center rounded-full align-center flex bg-white text-[#5ABA97]"><img src="../assets/img/arrow_back.svg"
+                class="mr-4"><p>Retournes à la carte</p></div></button>
+        <button class="next_button relative bottom-0 left-0 items-center align-center flex">Je continue <img src="../assets/img/arrow_message.svg"
+                class="ml-4"></button>
 
     </div>
     <button class="next_button items-center align-center flex"  style="font-family: 'Fredoka', sans-serif;">suivant <img src="../assets/img/arrow_message.svg"

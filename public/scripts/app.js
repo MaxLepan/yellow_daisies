@@ -9,8 +9,8 @@ function init() {
     document.querySelector('#page5 .blablaMouetteSearch').classList.add('hidden')
     document.querySelector('#page9>div>div>.next_button').classList.add('hidden')
     document.querySelector('#page9 .buttons').classList.remove('hidden')
-    document.querySelector('#page9 .flowerContainer').classList.remove('hidden')
-    document.querySelector('#page9 .flowersContainer').classList.add('hidden')
+    document.querySelector('#page9 .flowerContainer').classList.add('hidden')
+    document.querySelector('#page9 .flowersContainer').classList.remove('hidden')
     page = new Page(1, document.querySelectorAll('body>section').length);
     messagepage2 = new Message(1, document.querySelectorAll('#page2 div[class^=text]').length, 2);
     messagepage5 = new Message(1, document.querySelectorAll('#page5 div[class^=text]').length, 5);
@@ -44,8 +44,9 @@ function init() {
             window.setTimeout(() => page.goToNextPage(), 6.0 * 1000);
         }, false)
     })
-    
-    getSpeciesOccurencesByDecade();
+    document.querySelector('#page7 .goToNextPage').addEventListener("click", () => {
+
+    }, false)
     document.querySelector('#page5 .next_button')?.addEventListener("click", () => {
         if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
             document.querySelector('#page5 .sb3').classList.add('hidden')
@@ -88,7 +89,7 @@ function init() {
             clearNonInvasiveBellis();
         }
     })
-    document.querySelectorAll(".regionC")?.forEach((button) => {
+    document.querySelectorAll(".regionC").forEach((button) => {
         button.addEventListener("click", () => {
             var idR = button.id;
             console.log(idR)
@@ -102,8 +103,8 @@ function init() {
     document.querySelectorAll('#page9 .next_button').forEach(button => {
         button.addEventListener("click", () => {
             if (messagepage9.actualMessage === 1) {
-                document.querySelector('#page9 .flowerContainer').classList.add('hidden')
-                document.querySelector('#page9 .flowersContainer').classList.remove('hidden')
+                document.querySelector('#page9 .flowerContainer').classList.remove('hidden')
+                document.querySelector('#page9 .flowersContainer').classList.add('hidden')
                 document.querySelector('#page9 .buttons').classList.add('hidden')
                 document.querySelector('#page9>div>div>.next_button').classList.remove('hidden')
             }
@@ -167,7 +168,7 @@ function clearNonInvasiveBellis() {
 }
 
 window.isInvasive = true;
-window.decade = 1990;
+window.decade = 2020;
 
 window.decadeClick = function (decade) {
     window.decade = decade;
@@ -179,7 +180,8 @@ window.decadeClick = function (decade) {
     }
 }
 
-window.onclickRegion = function (decadeR, id) {
+function onclickRegion(decadeR, id) {
+    console.log("start onclickRegion")
     //decter le click de la région
     // afficher les infos de la région pour l'année cliquée
     //btn je visite
@@ -189,66 +191,60 @@ window.onclickRegion = function (decadeR, id) {
     var nbFleur;
     const params = new URLSearchParams();
     params.append('decade', decadeR);
+    console.log("before /getNbFlowersPerDecade")
     axios.post('/getNbFlowersPerDecade', params).then((res) => {
+        console.log("after /getNbFlowersPerDecade")
         nbFleur = res.data[id];
 
         const params3 = new URLSearchParams();
         params3.append('decade', decadeR);
         params3.append('region', id);
         console.log("after init")
+        console.log("before /getSpeciesWithMostOccurent")
         axios.post('/getSpeciesWithMostOccurent', params3).then((res2) => {
+            console.log("after /getSpeciesWithMostOccurent")
             console.log("salam")
-            console.log("name Species => ",res2.data.name)
+            console.log("name Species => ", res2.data.name)
+            const flowerValue = res2.data.name
             var soil;
             var soilName;
             var species;
-            switch (res2.data.name) {
+            var soils;
+            switch (flowerValue) {
                 case "automn":
                     soil = "La forêt";
+                    soils = "forêts"
                     soilName = "la paquerette d'automne"
                     species = "Bellis sylvestris"
                     break;
                 case "muraille":
                     soil = "Les cailloux";
+                    soils = "sols caillouteux"
                     soilName = "la paquerette des murailles"
                     species = "Erigeron karvinskianus"
                     break;
                 case "prairie":
                     soil = "La prairie";
+                    soils = "prairies"
                     soilName = "la paquerette des prairies"
                     species = "Bellis annua"
                     break;
                 case "pomponette":
                     soil = "Le jardin";
+                    soils = "jardins"
                     soilName = "la pomponette"
                     species = "Bellis";
                     break;
             }
-            var np=document.getElementById("nomPaquerette");
-                    
-            np.innerText=soilName;
-            var npS=document.getElementById("nomPaqueretteS");
-                    
-            npS.innerText=species;
-            var sol=document.getElementById("sol");
-                    
-            sol.innerHTML = "<strong>Type de sol : </strong>" + soil;
-
-            var mostSpecies = res2.data.name
-            var nomR = document.getElementById("nomRegionC");
-            nomR.innerText = id;
-            var nbrFleur = document.getElementById("nombrePaquerettes");
-            nbrFleur.innerHTML = "<strong>Nombre de Pâquerette : </strong>" + nbFleur;
             console.log(nbFleur)
             var croix = document.getElementById("closeButton");
             croix.addEventListener("click", () => {
                 popup.classList.add("hidden");
                 popup.ariaHidden = "true";
             })
-            console.log(decadeR);
-            //console.log(getFlowersByDecade(decadeR));
-
-            console.log(id);
+            console.log("end onclickRegion")
+            console.log("generateByRegion(", id, nbFleur, { flowerValue, soil, soils, soilName, species }, decadeR, ")")
+            generateByRegion(id, nbFleur, { flowerValue, soil, soils, soilName, species }, decadeR)
         })
     })
 }
@@ -381,11 +377,31 @@ function generateBySoil(soil) {
     document.querySelector('#page4 img').src = "../assets/img/" + soil + ".gif";
     document.querySelectorAll(".flowerChoice").forEach(flower => { flower.src = "../assets/img/flower_" + soil + ".svg"; })
     document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + soil + "_muraille" + ".svg";
-    document.querySelectorAll(".mouette").forEach(mouette => { mouette.src = "../assets/img/mouette_" + soil + ".svg"})
+    document.querySelectorAll(".mouette").forEach(mouette => { mouette.src = "../assets/img/mouette_" + soil + ".svg" })
     document.querySelector("#page5 .imageFlowerChoice").src = "../assets/img/photo_" + soil + ".svg";
     document.querySelector('.nameFlower').innerHTML = soilName
-
+    window.actualSoil = soil
     window.species = species;
+}
+
+function generateByRegion(region, nbFlower, mostSpecies) {
+
+    // page 7 popup
+    document.getElementById("nomPaquerette").innerText = mostSpecies.soilName
+    document.getElementById("nomPaqueretteS").innerText = mostSpecies.species
+    document.getElementById("sol").innerHTML = "<strong>Type de sol : </strong>" + mostSpecies.soil
+    document.getElementById("nomRegionC").innerText = region
+    document.getElementById("nombrePaquerettes").innerHTML = "<strong>Nombre de Pâquerette : </strong>" + nbFlower
+
+    // page 8
+    document.getElementById("goInRegion").innerText = "Allons en région " + region
+    document.getElementById("descRegion").innerHTML = "Dans ette région, la pâquerette numéro 1 est la " + mostSpecies.species + ".<br />Tu pourras trouver beaucoup de " + mostSpecies.soils + " où t’implanter."
+
+    // page 9
+    document.getElementById("titleGraph").innerHTML = "Découvres les différentes pâquerettes<br />en " + region
+    document.querySelector("#page9 .flowersContainer>img").src = "../assets/img/" + window.actualSoil + "_" + mostSpecies.flowerValue + ".svg";
+    onGenerateGraphData(region)
+    window.region = region;
 }
 
 const params2 = new URLSearchParams();
@@ -404,96 +420,84 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
 })
 
 
-function getSpeciesOccurencesByDecade() {
-    const img1 = new Image();
-    img1.src = '../assets/img/automnChart.png';
-    const img2 = new Image();
-    img2.src = '../assets/img/murailleChart.png';
-    const img3 = new Image();
-    img3.src = '../assets/img/prairieChart.png';
-    const img4 = new Image();
-    img4.src = '../assets/img/pomponetteChart.png';
+async function onGenerateGraphData(region) {
+    const listCourbes = [
+        {
+            backgroundColor: "rgba(255, 232, 182, 1)",
+            borderColor: "rgba(255, 205, 80, 1)",
+            pointBackgroundColor: "rgba(255, 205, 80, 1)",
+            pointBorderColor: "#fff"
+        }, {
+            backgroundColor: "rgba(188, 227, 213, 1)",
+            borderColor: "rgba(90, 186, 151, 1)",
+            pointBackgroundColor: "rgba(90, 186, 151, 1)",
+            pointBorderColor: "#fff"
+        }, {
+            backgroundColor: "rgba(218, 193, 224, 1)",
+            borderColor: "rgba(170, 118, 183, 1)",
+            pointBackgroundColor: "rgba(170, 118, 183, 1)",
+            pointBorderColor: "#fff"
+        }, {
+            backgroundColor: "rgba(204, 173, 173, 1)",
+            borderColor: "rgba(79, 47, 47, 1)",
+            pointBackgroundColor: "rgba(79, 47, 47, 1)",
+            pointBorderColor: "#fff"
+        },
+    ]
 
-    img1.onload = function () {
-        img2.onload = function () {
-            img3.onload = function () {
-                img4.onload = function () {
-                    const ctx = document.getElementById('myChart').getContext('2d');
-
-                    const fillPattern1 = ctx.createPattern(img1, 'repeat');
-                    const fillPattern2 = ctx.createPattern(img2, 'repeat');
-                    const fillPattern3 = ctx.createPattern(img3, 'repeat');
-                    const fillPattern4 = ctx.createPattern(img4, 'repeat');
-
-                    const listCourbes = [{
-                        borderColor: "#EEAAFF",
-                        fill: false,
-                        pointRadius: 20,
-                        pointBackgroundColor: fillPattern1
-                    }, {
-                        borderColor: "#F8CCD0",
-                        fill: false,
-                        pointRadius: 20,
-                        pointBackgroundColor: fillPattern2
-                    }, {
-                        borderColor: "#FFCD50",
-                        fill: false,
-                        pointRadius: 20,
-                        pointBackgroundColor: fillPattern3
-                    }, {
-                        borderColor: "#A7214B",
-                        fill: false,
-                        pointRadius: 20,
-                        pointBackgroundColor: fillPattern4
-                    }]
-
-                    const listSpecies = ["Bellis sylvestris", "Erigeron karvinskianus", "Bellis annua", "Bellis"];
-                    listSpecies.forEach((speciesName, i) => {
-                        listCourbes[i].data = [];
-                        for (let j = 0; j < 4; j++) {
-                            let params = new URLSearchParams();
-                            params.append('decade', (1990 + j * 10) + "");
-                            params.append('species', speciesName);
-                            params.append('region', "Occitanie");
-                            axios.post('/getSpeciesOccurrencesBySpecies', params).then((res) => {
-                                console.log(res)
-                                let value = res.data.nb;
-                                listCourbes[i].data.push(value);
-
-                            })
-                        }
-
-                    })
-                    onGenerateGraph(listCourbes);
+    const listSpecies = ["Erigeron karvinskianus", "Bellis annua", "Bellis", "Bellis sylvestris"];
+    let i = 0
+    for(const speciesName of listSpecies) {
+        i = parseInt(i)
+        listCourbes[i].data = [];
+        for (let j = 0; j < 4; j++) {
+            let params = new URLSearchParams();
+            params.append('decade', (1990 + j * 10) + "");
+            params.append('species', speciesName);
+            params.append('region', region || "Occitanie");
+            await axios.post('/getSpeciesOccurrencesBySpecies', params).then((res) => {
+                let value = 0
+                if (res.data.nb) {
+                    value = parseInt(Math.round(Math.sqrt(parseInt(res.data.nb))));
                 }
-            }
+                console.log("Value => ", value)
+                
+                if (parseInt(i)-1 >= 0) {
+                    console.log("I => ", parseInt(listCourbes[i - 1].data[j]))
+                    value += parseInt(listCourbes[i - 1].data[j])
+                    console.log("Value + i => ", value)
+                }
+                
+                listCourbes[i].data.push(value);
+
+            })
         }
+        console.log(listCourbes[i].data);
+        i++
     }
+    onCreateGraph(listCourbes);
 }
 
-function onGenerateGraph(listCourbes) {
-    var xValues = [1990, 2000, 2010, 2020];
-    var myChart = new Chart("myChart", {
+function onCreateGraph(listCourbes) {
+    const xValues = [1990, 2000, 2010, 2020];
+    document.querySelector(".chartjs-size-monitor")?.remove()
+    const myChart = new Chart("myChart", {
         type: "line",
-        borderColor: "#4F2F2F",
-        color: "#4F2F2F",
         data: {
             labels: xValues,
             datasets: listCourbes
         },
         options: {
             legend: { display: false },
-            animations: {
-                tension: {
-                    duration: 3000,
-                    easing: 'linear',
-                    from: 1,
-                    to: 0,
-                    loop: true
+            scales: {
+                yAxis: {
+                    grid: false,
+                    beginAtZero: true,
+                    display: false
                 }
-            },
-        }
-    });
+            }
+        },
+    })
     console.log("dom ok")
 }
 
@@ -503,6 +507,5 @@ window.addEventListener('load', () => {
     includeHTML()
     setTimeout(() => {
         init()
-        onGenerateGraph()
     }, 1000)
 })

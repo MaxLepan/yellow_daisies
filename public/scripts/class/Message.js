@@ -19,6 +19,7 @@ export default class Message {
             this.changeMessage(this.actualMessage + 1);
         }else{
             page.goToNextPage()
+            this.changeMessage(1)
         }
     }
 
