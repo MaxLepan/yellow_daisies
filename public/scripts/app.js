@@ -50,8 +50,10 @@ function init() {
         if (messagepage5.actualMessage === messagepage5.nbMessage - 1) {
             document.querySelector('#page5 .sb3').classList.add('hidden')
             document.querySelector('#page5 .blablaMouetteSearch').classList.remove('hidden')
+            typeWriter();
         }
         if (messagepage5.actualMessage === messagepage5.nbMessage) {
+
             window.setTimeout(() => page.goToNextPage(), 4.0 * 1000)
         }
         messagepage5.goToNextMessage(page);
@@ -62,6 +64,20 @@ function init() {
             getFlowersByDecade(button.value);
         }, false)
     })
+
+    let i = 0;
+    const txt = 'Voyager en France'; /* The text */
+    const speed =50; /* The speed/duration of the effect in milliseconds */
+
+    function typeWriter() {
+        if (i < txt.length) {
+            document.getElementById("typingEffect").innerHTML += txt.charAt(i);
+            console.log(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+
 
     window.invasiveButton = document.querySelector('#invasive-btn')
     console.log(window.invasiveButton)
@@ -250,8 +266,6 @@ window.onclickRegion = function (decadeR, id) {
         })
     })
 }
-
-
 window.getInvasiveFlowersByDecade = function (decade) {
 
     //window.isInvasive = isInvasive;
@@ -406,7 +420,7 @@ axios.post('/getPercentageInvasiveFlowersPerDecade', params2).then((res) => {
 
 
 function getSpeciesOccurencesByDecade() {
-    var colors = [
+    let colors = [
         '#EEAAFF',
         '#F8CCD0',
         '#FFCD50',
@@ -480,6 +494,7 @@ function onGenerateGraph(listCourbes) {
     });
     console.log("dom ok")
 }
+
 
 
 window.addEventListener('load', () => {
