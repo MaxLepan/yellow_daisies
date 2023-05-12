@@ -1,6 +1,6 @@
 # yellow_daisies
 Workshop 1 - Data visualisation
-Site : https://yellow-daisies.herokuapp.com/
+Site : https://daisies.guillian.net/
 
 
 ## Build & Deploy
@@ -11,3 +11,5 @@ docker compose -d --force-recreate --build
 
 
 ```
+
+
